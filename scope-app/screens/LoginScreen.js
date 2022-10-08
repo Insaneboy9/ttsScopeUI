@@ -6,17 +6,20 @@ import {
   TextInput,
   Text,
   Platform,
+  TouchableOpacity,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
+import HeaderBar from "../components/HeaderBar";
+
 function LoginScreen(props) {
+
+  const login = () => props.navigation.navigate("HomeScreen")
+
   return (
     <SafeAreaView style={styles.container}>
-      <SafeAreaView style={styles.header}>
-        <Text style={styles.text_header}> TTSH Endoscope Scheduler</Text>
-      </SafeAreaView>
+      <HeaderBar />
 
       <SafeAreaView style={styles.footer}>
         <Text style={styles.text_footer}>Username</Text>
@@ -43,10 +46,11 @@ function LoginScreen(props) {
         </SafeAreaView>
 
         <SafeAreaView style={styles.button}>
-          <LinearGradient colors={["#ADD8E6", "#ADD8E6"]} style={styles.signIn}>
+          <TouchableOpacity onPress= {login} style={styles.signIn}>
             <Text style={[styles.textSign, { color: "black" }]}>Log In</Text>
-          </LinearGradient>
+            </TouchableOpacity>
         </SafeAreaView>
+
       </SafeAreaView>
     </SafeAreaView>
   );
@@ -57,14 +61,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF",
   },
-  header: {
-    flex: 0.25,
-    justifyContent: "flex-end",
-    backgroundColor: "#ADD8E6",
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingBottom: 25,
-  },
   footer: {
     flex: 3,
     backgroundColor: "#FFF",
@@ -73,11 +69,6 @@ const styles = StyleSheet.create({
     paddingTop:50,
     paddingHorizontal: 20,
     paddingVertical: 30,
-  },
-  text_header: {
-    color: "black",
-    fontWeight: "bold",
-    fontSize: 24,
   },
   text_footer: {
     color: "#05375a",
@@ -103,6 +94,7 @@ const styles = StyleSheet.create({
   signIn: {
     width: "100%",
     height: 50,
+    backgroundColor: "#ADD8E6",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,

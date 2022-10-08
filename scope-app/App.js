@@ -8,12 +8,13 @@ import {
   StatusBar,
   Platform,
 } from "react-native";
-import LoginScreen from "./screens/LoginScreen";
+import AppNavigator from "./AppNavigator";
+
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <LoginScreen />
+      <AppNavigator />
     </SafeAreaView>
   );
 }
