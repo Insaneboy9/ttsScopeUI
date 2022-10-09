@@ -15,6 +15,10 @@ export default function NavigationBar() {
   return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          tabBarActiveTintColor: "lightblue",
+          tabBarInactiveTintColor: "grey",
+          tabBarLabelStyle: {fontSize : 16},
+          tabBarStyle: [{display: "flex"}],
           tabBarIcon: ({ focused, color, size, padding }) => {
             let iconName;
             if (route.name === "Home") {
@@ -28,7 +32,7 @@ export default function NavigationBar() {
             } else if (route.name === "Settings") {
               iconName = focused ? "settings" : "settings-outline";
             }
-
+            
             return (
               <IonicIcon
                 name={iconName}
@@ -39,11 +43,6 @@ export default function NavigationBar() {
             );
           },
         })}
-        tabBarOptions={{
-          activeTintColor: "lightblue",
-          inactiveTintColor: "grey",
-          labelStyle: { fontSize: 16 },
-        }}
       >
         <Tab.Screen
           name="Home"
