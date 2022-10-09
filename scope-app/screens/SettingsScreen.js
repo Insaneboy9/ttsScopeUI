@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
 import React from 'react'
+
+import HeaderBar from "../components/HeaderBar";
 
 export default function SettingsScreen() {
   return (
-    <View>
-      <Text>SettingsScreen</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <HeaderBar />
+    </SafeAreaView>
   )
 }
 

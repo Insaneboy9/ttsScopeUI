@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
 import React from 'react'
+
+import HeaderBar from "../components/HeaderBar";
 
 export default function BarcodeScannerScreen() {
   return (
-    <View>
-      <Text>BarcodeScannerScreen</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <HeaderBar />
+    </SafeAreaView>
   )
 }
 

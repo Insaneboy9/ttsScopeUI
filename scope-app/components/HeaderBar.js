@@ -10,11 +10,9 @@ const HeaderBar = () => {
 };
 const styles = StyleSheet.create({
   header: {
-    flex: 0.25,
-    justifyContent: "flex-end",
     backgroundColor: "#ADD8E6",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingTop: 25,
     paddingBottom: 25,
   },
   text_header: {

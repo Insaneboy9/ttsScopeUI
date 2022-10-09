@@ -1,14 +1,11 @@
 import {
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
   SafeAreaView,
-  Button,
   StatusBar,
   Platform,
 } from "react-native";
 import AppNavigator from "./AppNavigator";
+
 
 
 export default function App() {

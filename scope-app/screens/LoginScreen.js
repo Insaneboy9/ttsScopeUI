@@ -15,7 +15,7 @@ import HeaderBar from "../components/HeaderBar";
 
 function LoginScreen(props) {
 
-  const login = () => props.navigation.navigate("HomeScreen")
+  const login = () => props.navigation.navigate("NavigationBar")
 
   return (
     <SafeAreaView style={styles.container}>
