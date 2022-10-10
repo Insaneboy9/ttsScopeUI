@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -15,7 +15,15 @@ import HeaderBar from "../components/HeaderBar";
 
 function LoginScreen(props) {
 
-  const login = () => props.navigation.navigate("NavigationBar")
+  const [userDetail, setUserDetail] = useState('');
+
+  const login = () => {
+    if (userDetail.text === 'admin'){
+      props.navigation.navigate("JuniorNavigation")
+    } else {
+    props.navigation.navigate("SeniorNavigation")
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,8 +37,8 @@ function LoginScreen(props) {
             placeholder="Your Username"
             style={styles.textInput}
             autoCapitalize="none"
+            onChangeText={(text) => setUserDetail({text})}
           />
-          {/* <Feather name="check-circle" color="green" size={20} /> */}
         </SafeAreaView>
 
         <Text style={[styles.text_footer, { marginTop: 35 }]}>Password</Text>
@@ -42,7 +50,6 @@ function LoginScreen(props) {
             style={styles.textInput}
             autoCapitalize="none"
           />
-          {/* <Feather name="eye-off" color="grey" size={20} /> */}
         </SafeAreaView>
 
         <SafeAreaView style={styles.button}>
