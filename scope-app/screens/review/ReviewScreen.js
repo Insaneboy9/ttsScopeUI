@@ -1,7 +1,7 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-import HeaderBar from "../components/HeaderBar";
+import HeaderBar from "../../components/HeaderBar";
 
 export default function ReviewScreen() {
   return (

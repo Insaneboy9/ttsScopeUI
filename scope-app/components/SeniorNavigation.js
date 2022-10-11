@@ -3,11 +3,11 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import IonicIcon from "react-native-vector-icons/Ionicons";
 
-import HomeScreen from "../screens/HomeScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-import BarcodeScannerScreen from "../screens/BarcodeScannerScreen";
-import ReviewScreen from "../screens/ReviewScreen";
-import LabResultScreen from "../screens/LabResultScreen";
+import HomeScreen from "../screens/home/HomeScreen";
+import SettingsScreen from "../screens/settings/SettingsScreen";
+import BarcodeScannerScreen from "../screens/barcode/BarcodeScannerScreen";
+import ReviewScreen from "../screens/review/ReviewScreen";
+import LabResultScreen from "../screens/lab/LabResultScreen";
 
 const Tab = createBottomTabNavigator();
 

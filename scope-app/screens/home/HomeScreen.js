@@ -2,7 +2,7 @@ import { StyleSheet, Text, SafeAreaView, View } from 'react-native'
 import React from 'react'
 import { Table, Row, Rows } from 'react-native-table-component';
 
-import HeaderBar from "../components/HeaderBar";
+import HeaderBar from "../../components/HeaderBar";
 
 const tableHead= ['Head', 'Head2', 'Head3', 'Head4', 'Head5']
 const tableData= [

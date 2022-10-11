@@ -6,16 +6,16 @@ import SeniorNavigation from './components/SeniorNavigation';
 import JuniorNavigation from './components/JuniorNavigation';
 
 
-const { Navigator, Screen } = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Navigator initialRouteName='LoginScreen'>
-        <Screen name="LoginScreen" component={ LoginScreen } options={{headerShown:false}}></Screen>
-        <Screen name="SeniorNavigation" component={ SeniorNavigation } options={{headerShown:false}}></Screen>
-        <Screen name="JuniorNavigation" component={ JuniorNavigation } options={{headerShown:false}}></Screen>
-      </Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name="LoginScreen" component={ LoginScreen } options={{headerShown:false}}></Stack.Screen>
+        <Stack.Screen name="SeniorNavigation" component={ SeniorNavigation } options={{headerShown:false}}></Stack.Screen>
+        <Stack.Screen name="JuniorNavigation" component={ JuniorNavigation } options={{headerShown:false}}></Stack.Screen>
+      </Stack.Navigator>
     </NavigationContainer>
   )
 }

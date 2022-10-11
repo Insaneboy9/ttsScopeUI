@@ -1,13 +1,39 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import IonicIcon from "react-native-vector-icons/Ionicons";
 
-import HomeScreen from "../screens/HomeScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-import BarcodeScannerScreen from "../screens/BarcodeScannerScreen";
+import HomeScreen from "../screens/home/HomeScreen";
+import SettingsScreen from "../screens/settings/SettingsScreen";
+import BarcodeScannerScreen from "../screens/barcode/BarcodeScannerScreen";
+import ScopeDetailsScreen from "../screens/barcode/ScopeDetailsScreen";
 
 const Tab = createBottomTabNavigator();
+const HomeStack = createNativeStackNavigator();
+const BarcodeStack = createNativeStackNavigator();
+const SettingsStack = createNativeStackNavigator();
+
+const HomeStackScreen = () => {
+  return(
+  <HomeStack.Navigator>
+    <HomeStack.Screen name="HomeScreen" component= {HomeScreen} options={{ headerShown: false }} />
+  </HomeStack.Navigator>
+  )
+}
+
+const BarcodeStackScreen = () => {
+  <BarcodeStack.Navigator>
+    <BarcodeStack.Screen name= "BarcodeScreen" component= {BarcodeScannerScreen} options={{ headerShown: false }} />
+    <BarcodeStack.Screen name= "ScopeDetailsScreen" component={ScopeDetailsScreen} options={{ headerShown: false }} />
+  </BarcodeStack.Navigator>
+}
+
+const SettingsStackScreen = () => {
+  <SettingsStack.Navigator>
+    <SettingsStack.Screen name= "SettingsScreen" component= {SettingsScreen} options={{ headerShown: false }} />
+  </SettingsStack.Navigator>
+}
 
 export default function JuniorNavigation() {
   return (
@@ -40,17 +66,17 @@ export default function JuniorNavigation() {
       >
         <Tab.Screen
           name="Home"
-          component={HomeScreen}
+          component={HomeStackScreen}
           options={{ headerShown: false }}
         />
         <Tab.Screen
           name="Barcode"
-          component={BarcodeScannerScreen}
+          component={BarcodeStackScreen}
           options={{ headerShown: false }}
         />
         <Tab.Screen
           name="Settings"
-          component={SettingsScreen}
+          component={SettingsStackScreen}
           options={{ headerShown: false }}
         />
       </Tab.Navigator>

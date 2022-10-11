@@ -19,9 +19,9 @@ function LoginScreen(props) {
 
   const login = () => {
     if (userDetail.text === 'admin'){
-      props.navigation.navigate("JuniorNavigation")
+      props.navigation.navigate("SeniorNavigation")
     } else {
-    props.navigation.navigate("SeniorNavigation")
+    props.navigation.navigate("JuniorNavigation")
     }
   }
 
