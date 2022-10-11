@@ -6,7 +6,7 @@ import IonicIcon from "react-native-vector-icons/Ionicons";
 import HomeScreen from "../screens/HomeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import BarcodeScannerScreen from "../screens/BarcodeScannerScreen";
-import WeeklyScheduleScreen from "../screens/WeeklyScheduleScreen";
+import ReviewScreen from "../screens/ReviewScreen";
 import LabResultScreen from "../screens/LabResultScreen";
 
 const Tab = createBottomTabNavigator();
@@ -23,7 +23,7 @@ export default function SeniorNavigation() {
             let iconName;
             if (route.name === "Home") {
               iconName = focused ? "home" : "home-outline";
-            } else if (route.name === "Schedule") {
+            } else if (route.name === "Review") {
               iconName = focused ? "calendar" : "calendar-outline";
             } else if (route.name === "Barcode") {
               iconName = focused ? "barcode" : "barcode-outline";
@@ -50,8 +50,8 @@ export default function SeniorNavigation() {
           options={{ headerShown: false }}
         />
         <Tab.Screen
-          name="Schedule"
-          component={WeeklyScheduleScreen}
+          name="Review"
+          component={ReviewScreen}
           options={{ headerShown: false }}
         />
         <Tab.Screen
