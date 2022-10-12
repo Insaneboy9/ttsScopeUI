@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet,SafeAreaView, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 import HeaderBar from "../../components/HeaderBar";
 
-export default function BarcodeScannerScreen() {
+export default function BarcodeScannerScreen(props) {
+
   const scopeDetails = () => {
-    
+      props.navigation.navigate("ScopeDetailsScreen")
   }
 
   return (

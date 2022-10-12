@@ -2,14 +2,64 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import IonicIcon from "react-native-vector-icons/Ionicons";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from "../screens/home/HomeScreen";
 import SettingsScreen from "../screens/settings/SettingsScreen";
 import BarcodeScannerScreen from "../screens/barcode/BarcodeScannerScreen";
 import ReviewScreen from "../screens/review/ReviewScreen";
 import LabResultScreen from "../screens/lab/LabResultScreen";
+import ScopeDetailsScreen from "../screens/barcode/ScopeDetailsScreen";
+import ScopeDetailsScreen2 from "../screens/barcode/ScopeDetailsScreen2";
 
 const Tab = createBottomTabNavigator();
+const HomeStack = createNativeStackNavigator();
+const ReviewStack = createNativeStackNavigator();
+const BarcodeStack = createNativeStackNavigator();
+const LabStack = createNativeStackNavigator();
+const SettingsStack = createNativeStackNavigator();
+
+const HomeStackScreen = () => {
+  return(
+  <HomeStack.Navigator>
+    <HomeStack.Screen name="HomeScreen" component= {HomeScreen} options={{ headerShown: false }} />
+  </HomeStack.Navigator>
+  )
+}
+
+const ReviewStackScreen = () => {
+  return(
+  <ReviewStack.Navigator>
+    <ReviewStack.Screen name="ReviewScreen" component= {ReviewScreen} options={{ headerShown: false }} />
+  </ReviewStack.Navigator>
+  )
+}
+
+const BarcodeStackScreen = () => {
+  return(
+  <BarcodeStack.Navigator>
+    <BarcodeStack.Screen name= "BarcodeScreen" component= {BarcodeScannerScreen} options={{ headerShown: false }} />
+    <BarcodeStack.Screen name= "ScopeDetailsScreen" component={ScopeDetailsScreen} options={{ headerShown: false }} />
+    <BarcodeStack.Screen name= "ScopeDetailsScreen2" component={ScopeDetailsScreen2} options={{ headerShown: false }} />
+  </BarcodeStack.Navigator>
+  )
+}
+
+const LabStackScreen = () => {
+  return(
+  <LabStack.Navigator>
+    <LabStack.Screen name="LabScreen" component= {LabResultScreen} options={{ headerShown: false }} />
+  </LabStack.Navigator>
+  )
+}
+
+const SettingsStackScreen = () => {
+  return(
+  <SettingsStack.Navigator>
+    <SettingsStack.Screen name= "SettingsScreen" component= {SettingsScreen} options={{ headerShown: false }} />
+  </SettingsStack.Navigator>
+  )
+}
 
 export default function SeniorNavigation() {
   return (
@@ -46,27 +96,27 @@ export default function SeniorNavigation() {
       >
         <Tab.Screen
           name="Home"
-          component={HomeScreen}
+          component={HomeStackScreen}
           options={{ headerShown: false }}
         />
         <Tab.Screen
           name="Review"
-          component={ReviewScreen}
+          component={ReviewStackScreen}
           options={{ headerShown: false }}
         />
         <Tab.Screen
           name="Barcode"
-          component={BarcodeScannerScreen}
+          component={BarcodeStackScreen}
           options={{ headerShown: false }}
         />
         <Tab.Screen
           name="Lab"
-          component={LabResultScreen}
+          component={LabStackScreen}
           options={{ headerShown: false }}
         />
         <Tab.Screen
           name="Settings"
-          component={SettingsScreen}
+          component={SettingsStackScreen}
           options={{ headerShown: false }}
         />
       </Tab.Navigator>

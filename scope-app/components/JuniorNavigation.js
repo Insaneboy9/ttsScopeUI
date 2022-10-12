@@ -8,6 +8,8 @@ import HomeScreen from "../screens/home/HomeScreen";
 import SettingsScreen from "../screens/settings/SettingsScreen";
 import BarcodeScannerScreen from "../screens/barcode/BarcodeScannerScreen";
 import ScopeDetailsScreen from "../screens/barcode/ScopeDetailsScreen";
+import ScopeDetailsScreen2 from "../screens/barcode/ScopeDetailsScreen2";
+
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -23,16 +25,21 @@ const HomeStackScreen = () => {
 }
 
 const BarcodeStackScreen = () => {
+  return(
   <BarcodeStack.Navigator>
     <BarcodeStack.Screen name= "BarcodeScreen" component= {BarcodeScannerScreen} options={{ headerShown: false }} />
     <BarcodeStack.Screen name= "ScopeDetailsScreen" component={ScopeDetailsScreen} options={{ headerShown: false }} />
+    <BarcodeStack.Screen name= "ScopeDetailsScreen2" component={ScopeDetailsScreen2} options={{ headerShown: false }} />
   </BarcodeStack.Navigator>
+  )
 }
 
 const SettingsStackScreen = () => {
+  return(
   <SettingsStack.Navigator>
     <SettingsStack.Screen name= "SettingsScreen" component= {SettingsScreen} options={{ headerShown: false }} />
   </SettingsStack.Navigator>
+  )
 }
 
 export default function JuniorNavigation() {
