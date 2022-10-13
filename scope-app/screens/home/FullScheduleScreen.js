@@ -1,12 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import React from "react";
 
-export default function FullScheduleScreen() {
+import HeaderBar2 from "../../components/HeaderBar2";
+
+export default function FullScheduleScreen(props) {
   return (
-    <View>
-      <Text>FullScheduleScreen</Text>
-    </View>
-  )
+    <SafeAreaView>
+      <HeaderBar2 navigation={props.navigation} />
+    </SafeAreaView>
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
