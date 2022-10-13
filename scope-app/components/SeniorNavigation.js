@@ -80,7 +80,7 @@ export default function SeniorNavigation() {
             if (route.name === "Home") {
               iconName = focused ? "home" : "home-outline";
             } else if (route.name === "Review") {
-              iconName = focused ? "calendar" : "calendar-outline";
+              iconName = focused ? "newspaper" : "newspaper-outline";
             } else if (route.name === "Barcode") {
               iconName = focused ? "barcode" : "barcode-outline";
             } else if (route.name === "Lab") {
