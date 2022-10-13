@@ -38,7 +38,7 @@ export default function ScopeDetailsScreen(props) {
         <Text style={styles.text_header}>SCOPE DETAILS</Text>
         </View>
         <View style={styles.container}>
-          <Table borderStyle={{borderWidth: 0.7, borderColor: '#c8e1ff'}}>
+          <Table borderStyle={{borderWidth: 1, borderColor: '#c8e1ff'}}>
           <Row data={['Field','Detail']} flexArr={[1, 3]} style={styles.head} textStyle={styles.text}/>
           <TableWrapper style={styles.wrapper}>
             <Col data={keys} style={styles.title} heightArr={[28,28,28,28, 28]} textStyle={styles.text}/>
@@ -69,13 +69,16 @@ const styles = StyleSheet.create({
   },
   box: {
     marginTop: "1%",
+    justifyContent: 'center',
     marginHorizontal: "2%",
+    height: 50,
     backgroundColor: "#ADD8E6",
   },
   text_header: {
     color: "black",
     fontWeight: "bold",
     textAlign: "center",
+    
     fontSize: 24,
   },
   container: { 
