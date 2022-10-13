@@ -1,42 +1,45 @@
-import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import HeaderBar2 from '../../components/HeaderBar2'
+import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import HeaderBar2 from "../../components/HeaderBar2";
 
 export default function ScopeDetailsScreen(props) {
-  const addRecord = () => {
-    props.navigation.navigate("ScopeDetailsScreen2")
-  }
-
+  const goRepair = () => {
+    props.navigation.navigate("RepairScreen");
+  };
+  const goWash = () => {
+    props.navigation.navigate("WashScreen");
+  };
+  const goSample = () => {
+    props.navigation.navigate("SampleScreen");
+  };
   return (
     <SafeAreaView>
-      <HeaderBar2 navigation= {props.navigation} />
-      <SafeAreaView style= {styles.button}>
-      <Button onPress={addRecord} title="New Record" color="green" />
+      <HeaderBar2 navigation={props.navigation} />
+      <SafeAreaView style={styles.box}>
+        <Text>SCOPE DETAILS</Text>
+        <Text>wf</Text>
+        <Text>fewfew</Text>
+        <Text>fwefew</Text>
+      </SafeAreaView>
+      <SafeAreaView style={styles.section}>
+        <Button title="REPAIR" onPress={goRepair} />
+      </SafeAreaView>
+      <SafeAreaView style={styles.section}>
+        <Button title="WASH" onPress={goWash} />
+      </SafeAreaView>
+      <SafeAreaView style={styles.section}>
+        <Button title="SAMPLE" onPress={goSample} />
       </SafeAreaView>
     </SafeAreaView>
-  )
-}
-
-export function PersonnelDetailsScreen() {
-  return (
-    <View>
-      <Text>ScopeDetailsScreen2</Text>
-    </View>
-  )
-}
-
-export function AERDetailsScreen() {
-  return (
-    <View>
-      <Text>ScopeDetailsScreen2</Text>
-    </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  button: {
-    paddingLeft:20,
-    paddingRight:20,
-    marginTop: 400
+  section: {
+    marginTop: 30,
+  },
+  box:{
+    marginTop:50,
+    backgroundColor: "#ADD8E6",
   }
-})
+});

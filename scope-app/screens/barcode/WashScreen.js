@@ -3,7 +3,7 @@ import React from 'react'
 import SectionBar from '../../components/SectionBar'
 import HeaderBar2 from '../../components/HeaderBar2'
 
-export default function ScopeDetailsScreen2(props) {
+export default function WashScreen(props) {
   return (
     <SafeAreaView>
     <HeaderBar2 navigation= {props.navigation} />

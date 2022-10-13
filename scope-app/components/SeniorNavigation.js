@@ -10,7 +10,9 @@ import BarcodeScannerScreen from "../screens/barcode/BarcodeScannerScreen";
 import ReviewScreen from "../screens/review/ReviewScreen";
 import LabResultScreen from "../screens/lab/LabResultScreen";
 import ScopeDetailsScreen from "../screens/barcode/ScopeDetailsScreen";
-import ScopeDetailsScreen2 from "../screens/barcode/ScopeDetailsScreen2";
+import WashScreen from "../screens/barcode/WashScreen";
+import RepairScreen from "../screens/barcode/RepairScreen";
+import SampleScreen from "../screens/barcode/SampleScreen";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -40,7 +42,9 @@ const BarcodeStackScreen = () => {
   <BarcodeStack.Navigator>
     <BarcodeStack.Screen name= "BarcodeScreen" component= {BarcodeScannerScreen} options={{ headerShown: false }} />
     <BarcodeStack.Screen name= "ScopeDetailsScreen" component={ScopeDetailsScreen} options={{ headerShown: false }} />
-    <BarcodeStack.Screen name= "ScopeDetailsScreen2" component={ScopeDetailsScreen2} options={{ headerShown: false }} />
+    <BarcodeStack.Screen name= "RepairScreen" component={RepairScreen} options={{ headerShown: false }} />
+    <BarcodeStack.Screen name= "SampleScreen" component={SampleScreen} options={{ headerShown: false }} />
+    <BarcodeStack.Screen name= "WashScreen" component={WashScreen} options={{ headerShown: false }} />
   </BarcodeStack.Navigator>
   )
 }
