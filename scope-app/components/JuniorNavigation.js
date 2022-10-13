@@ -11,6 +11,7 @@ import ScopeDetailsScreen from "../screens/barcode/ScopeDetailsScreen";
 import WashScreen from "../screens/barcode/WashScreen";
 import RepairScreen from "../screens/barcode/RepairScreen";
 import SampleScreen from "../screens/barcode/SampleScreen";
+import FullScheduleScreen from "../screens/home/FullScheduleScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -22,6 +23,7 @@ const HomeStackScreen = () => {
   return(
   <HomeStack.Navigator>
     <HomeStack.Screen name="HomeScreen" component= {HomeScreen} options={{ headerShown: false }} />
+    <HomeStack.Screen name= "FullScheduleScreen" component= {FullScheduleScreen} options={{ headerShown: false }} />
   </HomeStack.Navigator>
   )
 }
