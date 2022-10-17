@@ -15,13 +15,16 @@ import HeaderBar from "../components/HeaderBar";
 
 function LoginScreen(props) {
 
-  const [userDetail, setUserDetail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const login = () => {
-    if (userDetail.text === 'admin'){
+    if (username.text === 'admin'){
       props.navigation.navigate("SeniorNavigation")
-    } else {
+    } else if (username.text=='junior') {
     props.navigation.navigate("JuniorNavigation")
+    } else {
+      alert('Please enter a valid username or password')
     }
   }
 
@@ -37,7 +40,7 @@ function LoginScreen(props) {
             placeholder="Your Username"
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(text) => setUserDetail({text})}
+            onChangeText={(text) => setUsername({text})}
           />
         </SafeAreaView>
 
@@ -49,6 +52,7 @@ function LoginScreen(props) {
             secureTextEntry={true}
             style={styles.textInput}
             autoCapitalize="none"
+            onChangeText={(text) => setPassword({text})}
           />
         </SafeAreaView>
 
