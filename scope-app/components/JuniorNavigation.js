@@ -12,6 +12,8 @@ import WashScreen from "../screens/barcode/WashScreen";
 import RepairScreen from "../screens/barcode/RepairScreen";
 import SampleScreen from "../screens/barcode/SampleScreen";
 import FullScheduleScreen from "../screens/home/FullScheduleScreen";
+import FourWeeklyScreen from "../screens/home/FourWeeklyScreen";
+import TwelveWeeklyScreen from "../screens/home/TwelveWeeklyScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -24,6 +26,8 @@ const HomeStackScreen = () => {
   <HomeStack.Navigator>
     <HomeStack.Screen name="HomeScreen" component= {HomeScreen} options={{ headerShown: false }} />
     <HomeStack.Screen name= "FullScheduleScreen" component= {FullScheduleScreen} options={{ headerShown: false }} />
+    <HomeStack.Screen name= "FourWeeklyScreen" component= {FourWeeklyScreen} options={{ headerShown: false }} />
+    <HomeStack.Screen name= "TwelveWeeklyScreen" component= {TwelveWeeklyScreen} options={{ headerShown: false }} />
   </HomeStack.Navigator>
   )
 }
