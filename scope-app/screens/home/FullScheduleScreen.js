@@ -82,12 +82,12 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   head: { height: 40, backgroundColor: "#f1f8ff" },
   text: { margin: 5, marginTop: 10, marginBottom: 10 },
-  table: { margin: 10, marginTop: 25, width: "75%" },
-  section: { marginTop: 30 },
+  table: { margin: 10, marginTop: 15, width: "75%" },
+  section: { marginTop: 10 },
   button: {
     width: "15%",
     height: 36,
-    marginTop: 65,
+    marginTop: 58,
     marginVertical: 4,
     //                marginBottom: 2,
     //                flex:1
