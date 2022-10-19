@@ -12,33 +12,29 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 import HeaderBar from "../components/HeaderBar";
-import { auth } from "../firebase";
+import { auth, firestore } from "../firebase";
 
 function LoginScreen(props) {
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
     const unsubscribed = auth.onAuthStateChanged(user => {
       if (user){
-        props.navigation.navigate("SeniorNavigation")
+        if (user.uid == "UGKkazjXfjeXUuGnOliPtx7Ae1R2"){
+          props.navigation.navigate("SeniorNavigation")
+        } else{
+          props.navigation.navigate("JuniorNavigation")
+        }
       }
     })
     return unsubscribed
   }, [])
 
-  // const handleSignUp = () => {
-  //   auth.createUserWithEmailAndPassword(username,password)
-  //   .then( userCredentials => {
-  //     const user = userCredentials.user;
-  //     console.log('Regustered with:', user.email);
-  //   })
-  //   .catch(error => alert(error.message))
-  // }
 
   const handleLogin = () => {
-    auth.signInWithEmailAndPassword(username.text, password.text)
+    auth.signInWithEmailAndPassword(email.text, password.text)
     .then( userCredentials => {
           const user = userCredentials.user;
           console.log('Logged in with:', user.email);
@@ -46,31 +42,30 @@ function LoginScreen(props) {
         .catch(error => alert(error.message))
   }
 
-
-  // const login = () => {
-  //   if (username.text === 'admin'){
-  //     props.navigation.navigate("SeniorNavigation")
-  //   } else if (username.text=='junior') {
-  //   props.navigation.navigate("JuniorNavigation")
-  //   } else {
-  //     alert('Please enter a valid username or password')
-  //   }
+    // const handleSignUp = () => {
+  //   auth.createUserWithEmailAndPassword(email,password)
+  //   .then( userCredentials => {
+  //     const user = userCredentials.user;
+  //     console.log('Regustered with:', user.email);
+  //   })
+  //   .catch(error => alert(error.message))
   // }
+
 
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar />
 
       <SafeAreaView style={styles.footer}>
-        <Text style={styles.text_footer}>Username</Text>
+        <Text style={styles.text_footer}>Email</Text>
         <SafeAreaView style={styles.action}>
           <FontAwesome name="user-o" color="#05375a" size={20} />
           <TextInput
-            placeholder="Your Username"
-            value={username}
+            placeholder="Your Email"
+            value={email}
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(text) => setUsername({text})}
+            onChangeText={(text) => setEmail({text})}
           />
         </SafeAreaView>
 
