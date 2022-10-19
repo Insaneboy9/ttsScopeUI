@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -12,21 +12,50 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 import HeaderBar from "../components/HeaderBar";
+import { auth } from "../firebase";
 
 function LoginScreen(props) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const login = () => {
-    if (username.text === 'admin'){
-      props.navigation.navigate("SeniorNavigation")
-    } else if (username.text=='junior') {
-    props.navigation.navigate("JuniorNavigation")
-    } else {
-      alert('Please enter a valid username or password')
-    }
+  useEffect(() => {
+    const unsubscribed = auth.onAuthStateChanged(user => {
+      if (user){
+        props.navigation.navigate("SeniorNavigation")
+      }
+    })
+    return unsubscribed
+  }, [])
+
+  // const handleSignUp = () => {
+  //   auth.createUserWithEmailAndPassword(username,password)
+  //   .then( userCredentials => {
+  //     const user = userCredentials.user;
+  //     console.log('Regustered with:', user.email);
+  //   })
+  //   .catch(error => alert(error.message))
+  // }
+
+  const handleLogin = () => {
+    auth.signInWithEmailAndPassword(username.text, password.text)
+    .then( userCredentials => {
+          const user = userCredentials.user;
+          console.log('Logged in with:', user.email);
+        })
+        .catch(error => alert(error.message))
   }
+
+
+  // const login = () => {
+  //   if (username.text === 'admin'){
+  //     props.navigation.navigate("SeniorNavigation")
+  //   } else if (username.text=='junior') {
+  //   props.navigation.navigate("JuniorNavigation")
+  //   } else {
+  //     alert('Please enter a valid username or password')
+  //   }
+  // }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -38,6 +67,7 @@ function LoginScreen(props) {
           <FontAwesome name="user-o" color="#05375a" size={20} />
           <TextInput
             placeholder="Your Username"
+            value={username}
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={(text) => setUsername({text})}
@@ -50,6 +80,7 @@ function LoginScreen(props) {
           <TextInput
             placeholder="Your Password"
             secureTextEntry={true}
+            value= {password}
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={(text) => setPassword({text})}
@@ -57,7 +88,7 @@ function LoginScreen(props) {
         </SafeAreaView>
 
         <SafeAreaView style={styles.button}>
-          <TouchableOpacity onPress= {login} style={styles.signIn}>
+          <TouchableOpacity onPress= {handleLogin} style={styles.signIn}>
             <Text style={[styles.textSign, { color: "black" }]}>Log In</Text>
             </TouchableOpacity>
         </SafeAreaView>
