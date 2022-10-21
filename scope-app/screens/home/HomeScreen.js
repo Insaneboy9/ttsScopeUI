@@ -5,7 +5,7 @@ import { Table, Row, Rows } from "react-native-table-component";
 import HeaderBar from "../../components/HeaderBar";
 import SectionBar from "../../components/SectionBar";
 
-const tableHead = ["Head", "Head2", "Head3", "Head4", "Head5"];
+const tableHead = ["Brand", "Model", "Serial No.", "dje;de", "demode"]
 const tableData = [
   ["1", "2", "3", "4", "5"],
   ["a", "b", "c", "d", "5"],

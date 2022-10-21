@@ -5,6 +5,11 @@ import HeaderBar from "../../components/HeaderBar";
 import SectionBar from "../../components/SectionBar";
 
 export default function LabResultScreen(props) {
+
+  const goReschedule = () => {
+    props.navigation.navigate("RescheduleScreen")
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar />
@@ -18,7 +23,7 @@ export default function LabResultScreen(props) {
         <Text>SERIAL NO.: 2912702</Text>
         <Text>FUID TEST: PASS</Text>
         <Text>SWAB TEST: FAIL</Text>
-        <Button title="Reschedule" color="#80BDE3" />
+        <Button title="Reschedule" color="#80BDE3" onPress={goReschedule}/>
       </SafeAreaView>
 
       <SafeAreaView style={styles.section}>
@@ -30,7 +35,7 @@ export default function LabResultScreen(props) {
         <Text>SERIAL NO.: 5G403K183</Text>
         <Text>FUID TEST: PASS</Text>
         <Text>SWAB TEST: PASS</Text>
-        <Button title="Reschedule" color="#80BDE3" />
+        <Button title="Reschedule" color="#80BDE3" onPress={goReschedule} />
       </SafeAreaView>
     </SafeAreaView>
   );
