@@ -5,7 +5,7 @@ import HeaderBar2 from "../../components/HeaderBar2";
 
 export default function ScopeDetailsScreen(props) {
   const goRepair = () => {
-    props.navigation.navigate("RepairScreen");
+    props.navigation.navigate("RepairScreen", {scope});
   };
   const goWash = () => {
     props.navigation.navigate("WashScreen");
@@ -35,30 +35,44 @@ export default function ScopeDetailsScreen(props) {
       <HeaderBar2 navigation={props.navigation} />
       <SafeAreaView>
         <View style={styles.box}>
-        <Text style={styles.text_header}>SCOPE DETAILS</Text>
+          <Text style={styles.text_header}>SCOPE DETAILS</Text>
         </View>
         <View style={styles.container}>
-          <Table borderStyle={{borderWidth: 1, borderColor: '#c8e1ff'}}>
-          <Row data={['Field','Detail']} flexArr={[1, 3]} style={styles.head} textStyle={styles.text}/>
-          <TableWrapper style={styles.wrapper}>
-            <Col data={keys} style={styles.title} heightArr={[28,28,28,28, 28]} textStyle={styles.text}/>
-            <Rows data={vals} flexArr={[1, 2]} style={styles.row} textStyle={styles.text}/>
-          </TableWrapper>
+          <Table borderStyle={{ borderWidth: 1, borderColor: "#c8e1ff" }}>
+            <Row
+              data={["Field", "Detail"]}
+              flexArr={[1, 3]}
+              style={styles.head}
+              textStyle={styles.text}
+            />
+            <TableWrapper style={styles.wrapper}>
+              <Col
+                data={keys}
+                style={styles.title}
+                heightArr={[28, 28, 28, 28, 28]}
+                textStyle={styles.text}
+              />
+              <Rows
+                data={vals}
+                flexArr={[1, 2]}
+                style={styles.row}
+                textStyle={styles.text}
+              />
+            </TableWrapper>
           </Table>
         </View>
       </SafeAreaView>
       <View style={styles.section}>
-      <SafeAreaView >
-        <Button title="REPAIR" onPress={goRepair} />
-      </SafeAreaView>
-      <SafeAreaView>
-        <Button title="WASH" onPress={goWash} />
-      </SafeAreaView>
-      <SafeAreaView>
-        <Button title="SAMPLE" onPress={goSample} />
-      </SafeAreaView>
+        <SafeAreaView style={styles.button}>
+          <Button title="REPAIR" onPress={goRepair} />
+        </SafeAreaView>
+        <SafeAreaView style={styles.button}>
+          <Button title="WASH" onPress={goWash} />
+        </SafeAreaView>
+        <SafeAreaView style={styles.button}>
+          <Button title="SAMPLE" onPress={goSample} />
+        </SafeAreaView>
       </View>
-
     </SafeAreaView>
   );
 }
@@ -66,10 +80,14 @@ export default function ScopeDetailsScreen(props) {
 const styles = StyleSheet.create({
   section: {
     marginTop: 200,
+    padding: "2%",
+  },
+  button: {
+    margin: "2%",
   },
   box: {
     marginTop: "1%",
-    justifyContent: 'center',
+    justifyContent: "center",
     marginHorizontal: "2%",
     height: 50,
     backgroundColor: "#ADD8E6",
@@ -78,21 +96,25 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "bold",
     textAlign: "center",
-    
+
     fontSize: 24,
   },
-  container: { 
-    flex: 1, marginHorizontal: "2%", 
-    marginTop: "1%", backgroundColor: "#fff" 
+  container: {
+    flex: 1,
+    marginHorizontal: "2%",
+    marginTop: "1%",
+    backgroundColor: "#fff",
   },
-  head: { 
-    height: 40, backgroundColor: "#f1f8ff" 
+  head: {
+    height: 40,
+    backgroundColor: "#f1f8ff",
   },
-  wrapper: { 
-    flexDirection: "row" 
+  wrapper: {
+    flexDirection: "row",
   },
-  title: { 
-    flex: 1, backgroundColor: "#f6f8fa" 
+  title: {
+    flex: 1,
+    backgroundColor: "#f6f8fa",
   },
   row: { height: 28 },
   text: { textAlign: "center" },
