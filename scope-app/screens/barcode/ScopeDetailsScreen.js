@@ -8,10 +8,10 @@ export default function ScopeDetailsScreen(props) {
     props.navigation.navigate("RepairScreen", {scope});
   };
   const goWash = () => {
-    props.navigation.navigate("WashScreen");
+    props.navigation.navigate("WashScreen", {scope});
   };
   const goSample = () => {
-    props.navigation.navigate("SampleScreen");
+    props.navigation.navigate("SampleScreen", {scope});
   };
 
   const scope = {
