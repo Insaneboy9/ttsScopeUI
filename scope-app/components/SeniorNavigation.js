@@ -14,6 +14,10 @@ import WashScreen from "../screens/barcode/WashScreen";
 import RepairScreen from "../screens/barcode/RepairScreen";
 import SampleScreen from "../screens/barcode/SampleScreen";
 import FullScheduleScreen from "../screens/home/FullScheduleScreen";
+import FourWeeklyScreen from "../screens/home/FourWeeklyScreen";
+import TwelveWeeklyScreen from "../screens/home/TwelveWeeklyScreen";
+import RescheduleScreen from "../screens/lab/RescheduleScreen.js" 
+import SuccessScreen from "../screens/lab/SuccessScreen.js" 
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -27,6 +31,8 @@ const HomeStackScreen = () => {
   <HomeStack.Navigator>
     <HomeStack.Screen name="HomeScreen" component= {HomeScreen} options={{ headerShown: false }} />
     <HomeStack.Screen name= "FullScheduleScreen" component= {FullScheduleScreen} options={{ headerShown: false }} />
+    <HomeStack.Screen name= "FourWeeklyScreen" component= {FourWeeklyScreen} options={{ headerShown: false }} />
+    <HomeStack.Screen name= "TwelveWeeklyScreen" component= {TwelveWeeklyScreen} options={{ headerShown: false }} />
   </HomeStack.Navigator>
   )
 }
@@ -55,6 +61,8 @@ const LabStackScreen = () => {
   return(
   <LabStack.Navigator>
     <LabStack.Screen name="LabScreen" component= {LabResultScreen} options={{ headerShown: false }} />
+    <LabStack.Screen name="RescheduleScreen" component= {RescheduleScreen} options={{ headerShown: false }} />
+    <LabStack.Screen name="SuccessScreen" component= {SuccessScreen} options={{ headerShown: false }} />
   </LabStack.Navigator>
   )
 }

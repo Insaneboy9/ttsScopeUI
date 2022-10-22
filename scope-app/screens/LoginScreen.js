@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -12,32 +12,60 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 import HeaderBar from "../components/HeaderBar";
+import { auth, firestore } from "../firebase";
 
 function LoginScreen(props) {
 
-  const [userDetail, setUserDetail] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const login = () => {
-    if (userDetail.text === 'admin'){
-      props.navigation.navigate("SeniorNavigation")
-    } else {
-    props.navigation.navigate("JuniorNavigation")
-    }
+  useEffect(() => {
+    const unsubscribed = auth.onAuthStateChanged(user => {
+      if (user){
+        if (user.uid == "UGKkazjXfjeXUuGnOliPtx7Ae1R2"){
+          props.navigation.navigate("SeniorNavigation")
+        } else{
+          props.navigation.navigate("JuniorNavigation")
+        }
+      }
+    })
+    return unsubscribed
+  }, [])
+
+
+  const handleLogin = () => {
+    auth.signInWithEmailAndPassword(email.text, password.text)
+    .then( userCredentials => {
+          const user = userCredentials.user;
+          console.log('Logged in with:', user.email);
+        })
+        .catch(error => alert(error.message))
   }
+
+    // const handleSignUp = () => {
+  //   auth.createUserWithEmailAndPassword(email,password)
+  //   .then( userCredentials => {
+  //     const user = userCredentials.user;
+  //     console.log('Regustered with:', user.email);
+  //   })
+  //   .catch(error => alert(error.message))
+  // }
+
 
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar />
 
       <SafeAreaView style={styles.footer}>
-        <Text style={styles.text_footer}>Username</Text>
+        <Text style={styles.text_footer}>Email</Text>
         <SafeAreaView style={styles.action}>
           <FontAwesome name="user-o" color="#05375a" size={20} />
           <TextInput
-            placeholder="Your Username"
+            placeholder="Your Email"
+            value={email}
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(text) => setUserDetail({text})}
+            onChangeText={(text) => setEmail({text})}
           />
         </SafeAreaView>
 
@@ -47,13 +75,15 @@ function LoginScreen(props) {
           <TextInput
             placeholder="Your Password"
             secureTextEntry={true}
+            value= {password}
             style={styles.textInput}
             autoCapitalize="none"
+            onChangeText={(text) => setPassword({text})}
           />
         </SafeAreaView>
 
         <SafeAreaView style={styles.button}>
-          <TouchableOpacity onPress= {login} style={styles.signIn}>
+          <TouchableOpacity onPress= {handleLogin} style={styles.signIn}>
             <Text style={[styles.textSign, { color: "black" }]}>Log In</Text>
             </TouchableOpacity>
         </SafeAreaView>
