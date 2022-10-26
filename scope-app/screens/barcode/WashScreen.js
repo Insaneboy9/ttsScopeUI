@@ -153,6 +153,7 @@ export default function WashScreen(props) {
 const styles = StyleSheet.create({
   section: {
     marginTop: 30,
+    color: 'black',
   },
 
   textBox: {
@@ -175,10 +176,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#ADD8E6",
     marginTop: 10,
     alignItems: "center",
+    color: 'black'
   },
   titleText: {
     fontSize: 20,
-    color: "white",
+    color: "black",
   },
   button: {
     margin: "2%",

@@ -1,33 +1,55 @@
 import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-import React from "react";
+import { firestore } from "../../firebase";
+import React, { useState } from "react";
 import HeaderBar2 from "../../components/HeaderBar2";
+import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
+
+
 
 export default function ScopeDetailsScreen(props) {
+
+  const [scope, setscope] = useState({});
   const goRepair = () => {
-    props.navigation.navigate("RepairScreen", {scope});
+    props.navigation.navigate("RepairScreen", { scope });
   };
   const goWash = () => {
-    props.navigation.navigate("WashScreen", {scope});
+    props.navigation.navigate("WashScreen", { scope });
   };
   const goSample = () => {
-    props.navigation.navigate("SampleScreen", {scope});
+    props.navigation.navigate("SampleScreen", { scope });
   };
-
-  const scope = {
-    'brand' : 'Fujinon',
-    'type'  : 'OGD',
-    'model' : 'EG 760',
-    'serial': '5GA4SGA',
-    'status': 'regular' 
+  async function getScope() {
+    return firestore()
+      .collection("scope")
+      .doc("cluVvyysHJKv3oiUTo5U")
+      .get()
   }
 
-  const keys = []
-  const vals = []
+  getScope().then(scopeInstance => {
+      const scopedata = scopeInstance.data()
+
+      setscope(data => ({
+        ...scope,
+        ...scopedata
+      }))
+
+    })
+
+  // const scope = {
+  //   'brand' : 'Fujinon',
+  //   'type'  : 'OGD',
+  //   'model' : 'EG 760',
+  //   'serial': '5GA4SGA',
+  //   'status': 'regular'
+  // }
+
+  const keys = [];
+  const vals = [];
 
   for (const [key, val] of Object.entries(scope)) {
-    keys.push(key)
-    vals.push([val])
+    keys.push(key);
+    vals.push([val]);
   }
 
   return (

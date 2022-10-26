@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import SectionBar from '../../components/SectionBar'
 import HeaderBar2 from '../../components/HeaderBar2'
@@ -72,6 +72,9 @@ export default function SampleScreen(props) {
           setItems={setItems}
         />
       </SafeAreaView>
+      <SafeAreaView style={styles.button}>
+        <Button title='Submit'></Button>
+      </SafeAreaView>
     </SafeAreaView>
   );
 }
@@ -81,6 +84,9 @@ const styles = StyleSheet.create({
   section: {
     marginTop: 30,
   },
+  button: {
+    margin: '5%',
+  }, 
   text_header: {
     color: "black",
     fontWeight: "bold",
