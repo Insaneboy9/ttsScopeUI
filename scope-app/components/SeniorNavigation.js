@@ -5,10 +5,9 @@ import IonicIcon from "react-native-vector-icons/Ionicons";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from "../screens/home/HomeScreen";
-import SettingsScreen from "../screens/settings/SettingsScreen";
+import LogoutScreen from "../screens/settings/LogoutScreen";
 import BarcodeScannerScreen from "../screens/barcode/BarcodeScannerScreen";
 import ReviewScreen from "../screens/review/ReviewScreen";
-import LabResultScreen from "../screens/lab/LabResultScreen";
 import ScopeDetailsScreen from "../screens/barcode/ScopeDetailsScreen";
 import WashScreen from "../screens/barcode/WashScreen";
 import RepairScreen from "../screens/barcode/RepairScreen";
@@ -16,14 +15,13 @@ import SampleScreen from "../screens/barcode/SampleScreen";
 import FullScheduleScreen from "../screens/home/FullScheduleScreen";
 import FourWeeklyScreen from "../screens/home/FourWeeklyScreen";
 import TwelveWeeklyScreen from "../screens/home/TwelveWeeklyScreen";
-import RescheduleScreen from "../screens/lab/RescheduleScreen.js" 
-import SuccessScreen from "../screens/lab/SuccessScreen.js" 
+import MoreScreen from "../screens/more/MoreScreen";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 const ReviewStack = createNativeStackNavigator();
 const BarcodeStack = createNativeStackNavigator();
-const LabStack = createNativeStackNavigator();
+const MoreStack = createNativeStackNavigator();
 const SettingsStack = createNativeStackNavigator();
 
 const HomeStackScreen = () => {
@@ -57,20 +55,21 @@ const BarcodeStackScreen = () => {
   )
 }
 
-const LabStackScreen = () => {
+const MoreStackScreen = () => {
   return(
-  <LabStack.Navigator>
-    <LabStack.Screen name="LabScreen" component= {LabResultScreen} options={{ headerShown: false }} />
-    <LabStack.Screen name="RescheduleScreen" component= {RescheduleScreen} options={{ headerShown: false }} />
-    <LabStack.Screen name="SuccessScreen" component= {SuccessScreen} options={{ headerShown: false }} />
-  </LabStack.Navigator>
+  <MoreStack.Navigator>
+    <MoreStack.Screen name="MoreScreen" component= {MoreScreen} options={{ headerShown: false }} />
+    {/* <MoreStack.Screen name="LabScreen" component= {LabResultScreen} options={{ headerShown: false }} />
+    <MoreStack.Screen name="RescheduleScreen" component= {RescheduleScreen} options={{ headerShown: false }} />
+    <MoreStack.Screen name="SuccessScreen" component= {SuccessScreen} options={{ headerShown: false }} /> */}
+  </MoreStack.Navigator>
   )
 }
 
 const SettingsStackScreen = () => {
   return(
   <SettingsStack.Navigator>
-    <SettingsStack.Screen name= "SettingsScreen" component= {SettingsScreen} options={{ headerShown: false }} />
+    <SettingsStack.Screen name= "LogoutScreen" component= {LogoutScreen} options={{ headerShown: false }} />
   </SettingsStack.Navigator>
   )
 }
@@ -91,10 +90,10 @@ export default function SeniorNavigation() {
               iconName = focused ? "newspaper" : "newspaper-outline";
             } else if (route.name === "Barcode") {
               iconName = focused ? "barcode" : "barcode-outline";
-            } else if (route.name === "Lab") {
-              iconName = focused ? "clipboard" : "clipboard-outline";
-            } else if (route.name === "Settings") {
-              iconName = focused ? "settings" : "settings-outline";
+            } else if (route.name === "More") {
+              iconName = focused ? "md-ellipsis-horizontal" : "md-ellipsis-horizontal-outline";
+            } else if (route.name === "Logout") {
+              iconName = focused ? "exit" : "exit-outline";
             }
             
             return (
@@ -124,12 +123,12 @@ export default function SeniorNavigation() {
           options={{ headerShown: false }}
         />
         <Tab.Screen
-          name="Lab"
-          component={LabStackScreen}
+          name="More"
+          component={MoreStackScreen}
           options={{ headerShown: false }}
         />
         <Tab.Screen
-          name="Settings"
+          name="Logout"
           component={SettingsStackScreen}
           options={{ headerShown: false }}
         />

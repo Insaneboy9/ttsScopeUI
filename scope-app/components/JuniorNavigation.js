@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import IonicIcon from "react-native-vector-icons/Ionicons";
 
 import HomeScreen from "../screens/home/HomeScreen";
-import SettingsScreen from "../screens/settings/SettingsScreen";
+import LogoutScreen from "../screens/settings/LogoutScreen";
 import BarcodeScannerScreen from "../screens/barcode/BarcodeScannerScreen";
 import ScopeDetailsScreen from "../screens/barcode/ScopeDetailsScreen";
 import WashScreen from "../screens/barcode/WashScreen";
@@ -47,7 +47,7 @@ const BarcodeStackScreen = () => {
 const SettingsStackScreen = () => {
   return(
   <SettingsStack.Navigator>
-    <SettingsStack.Screen name= "SettingsScreen" component= {SettingsScreen} options={{ headerShown: false }} />
+    <SettingsStack.Screen name= "LogoutScreen" component= {LogoutScreen} options={{ headerShown: false }} />
   </SettingsStack.Navigator>
   )
 }
@@ -66,8 +66,8 @@ export default function JuniorNavigation() {
               iconName = focused ? "home" : "home-outline";
             }  else if (route.name === "Barcode") {
               iconName = focused ? "barcode" : "barcode-outline";
-            }  else if (route.name === "Settings") {
-              iconName = focused ? "settings" : "settings-outline";
+            }  else if (route.name === "Logout") {
+              iconName = focused ? "exit" : "exit-outline";
             }
             
             return (
