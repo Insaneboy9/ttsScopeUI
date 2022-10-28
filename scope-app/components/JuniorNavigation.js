@@ -14,12 +14,13 @@ import SampleScreen from "../screens/barcode/SampleScreen";
 import FullScheduleScreen from "../screens/home/FullScheduleScreen";
 import FourWeeklyScreen from "../screens/home/FourWeeklyScreen";
 import TwelveWeeklyScreen from "../screens/home/TwelveWeeklyScreen";
+import MoreScreen from "../screens/more/MoreScreen";
 
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 const BarcodeStack = createNativeStackNavigator();
-const SettingsStack = createNativeStackNavigator();
+const MoreStack = createNativeStackNavigator();
 
 const HomeStackScreen = () => {
   return(
@@ -44,11 +45,11 @@ const BarcodeStackScreen = () => {
   )
 }
 
-const SettingsStackScreen = () => {
+const MoreStackScreen = () => {
   return(
-  <SettingsStack.Navigator>
-    <SettingsStack.Screen name= "LogoutScreen" component= {LogoutScreen} options={{ headerShown: false }} />
-  </SettingsStack.Navigator>
+  <MoreStack.Navigator>
+    <MoreStack.Screen name="MoreScreen" component= {MoreScreen} options={{ headerShown: false }} />
+  </MoreStack.Navigator>
   )
 }
 
@@ -66,8 +67,8 @@ export default function JuniorNavigation() {
               iconName = focused ? "home" : "home-outline";
             }  else if (route.name === "Barcode") {
               iconName = focused ? "barcode" : "barcode-outline";
-            }  else if (route.name === "Logout") {
-              iconName = focused ? "exit" : "exit-outline";
+            }  else if (route.name === "More") {
+              iconName = focused ? "md-ellipsis-horizontal" : "md-ellipsis-horizontal-outline";
             }
             
             return (
@@ -92,8 +93,8 @@ export default function JuniorNavigation() {
           options={{ headerShown: false }}
         />
         <Tab.Screen
-          name="Settings"
-          component={SettingsStackScreen}
+          name="More"
+          component={MoreStackScreen}
           options={{ headerShown: false }}
         />
       </Tab.Navigator>

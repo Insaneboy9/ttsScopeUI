@@ -22,7 +22,7 @@ const HomeStack = createNativeStackNavigator();
 const ReviewStack = createNativeStackNavigator();
 const BarcodeStack = createNativeStackNavigator();
 const MoreStack = createNativeStackNavigator();
-const SettingsStack = createNativeStackNavigator();
+// const SettingsStack = createNativeStackNavigator();
 
 const HomeStackScreen = () => {
   return(
@@ -66,13 +66,13 @@ const MoreStackScreen = () => {
   )
 }
 
-const SettingsStackScreen = () => {
-  return(
-  <SettingsStack.Navigator>
-    <SettingsStack.Screen name= "LogoutScreen" component= {LogoutScreen} options={{ headerShown: false }} />
-  </SettingsStack.Navigator>
-  )
-}
+// const SettingsStackScreen = () => {
+//   return(
+//   <SettingsStack.Navigator>
+//     <SettingsStack.Screen name= "LogoutScreen" component= {LogoutScreen} options={{ headerShown: false }} />
+//   </SettingsStack.Navigator>
+//   )
+// }
 
 export default function SeniorNavigation() {
   return (
@@ -127,11 +127,11 @@ export default function SeniorNavigation() {
           component={MoreStackScreen}
           options={{ headerShown: false }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Logout"
           component={SettingsStackScreen}
           options={{ headerShown: false }}
-        />
+        /> */}
       </Tab.Navigator>
   );
 }

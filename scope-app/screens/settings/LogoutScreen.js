@@ -62,7 +62,8 @@ export default function LogoutScreen(props) {
 const styles = StyleSheet.create({
   button: {
     alightItems: "center",
-    marginTop: 50,
+    margin: 50,
+    marginTop:250,
   },
   signOut: {
     width: "100%",
