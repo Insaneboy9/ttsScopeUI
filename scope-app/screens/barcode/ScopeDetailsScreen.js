@@ -3,12 +3,12 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 import { firestore } from "../../firebase";
 import React, { useState } from "react";
 import HeaderBar2 from "../../components/HeaderBar2";
-import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
-
 
 
 export default function ScopeDetailsScreen(props) {
 
+
+  
   const [scope, setscope] = useState({});
   const goRepair = () => {
     props.navigation.navigate("RepairScreen", { scope });
@@ -36,13 +36,6 @@ export default function ScopeDetailsScreen(props) {
 
     })
 
-  // const scope = {
-  //   'brand' : 'Fujinon',
-  //   'type'  : 'OGD',
-  //   'model' : 'EG 760',
-  //   'serial': '5GA4SGA',
-  //   'status': 'regular'
-  // }
 
   const keys = [];
   const vals = [];
