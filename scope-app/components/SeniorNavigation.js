@@ -5,7 +5,6 @@ import IonicIcon from "react-native-vector-icons/Ionicons";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from "../screens/home/HomeScreen";
-import LogoutScreen from "../screens/settings/LogoutScreen";
 import BarcodeScannerScreen from "../screens/barcode/BarcodeScannerScreen";
 import ReviewScreen from "../screens/review/ReviewScreen";
 import ScopeDetailsScreen from "../screens/barcode/ScopeDetailsScreen";
@@ -16,13 +15,13 @@ import FullScheduleScreen from "../screens/home/FullScheduleScreen";
 import FourWeeklyScreen from "../screens/home/FourWeeklyScreen";
 import TwelveWeeklyScreen from "../screens/home/TwelveWeeklyScreen";
 import MoreScreen from "../screens/more/MoreScreen";
+import SettingsScreen from "../screens/more/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 const ReviewStack = createNativeStackNavigator();
 const BarcodeStack = createNativeStackNavigator();
 const MoreStack = createNativeStackNavigator();
-// const SettingsStack = createNativeStackNavigator();
 
 const HomeStackScreen = () => {
   return(
@@ -59,20 +58,11 @@ const MoreStackScreen = () => {
   return(
   <MoreStack.Navigator>
     <MoreStack.Screen name="MoreScreen" component= {MoreScreen} options={{ headerShown: false }} />
-    {/* <MoreStack.Screen name="LabScreen" component= {LabResultScreen} options={{ headerShown: false }} />
-    <MoreStack.Screen name="RescheduleScreen" component= {RescheduleScreen} options={{ headerShown: false }} />
-    <MoreStack.Screen name="SuccessScreen" component= {SuccessScreen} options={{ headerShown: false }} /> */}
+    <MoreStack.Screen name="SettingsScreen" component= {SettingsScreen} options={{ headerShown: false }} />
   </MoreStack.Navigator>
   )
 }
 
-// const SettingsStackScreen = () => {
-//   return(
-//   <SettingsStack.Navigator>
-//     <SettingsStack.Screen name= "LogoutScreen" component= {LogoutScreen} options={{ headerShown: false }} />
-//   </SettingsStack.Navigator>
-//   )
-// }
 
 export default function SeniorNavigation() {
   return (
@@ -92,9 +82,7 @@ export default function SeniorNavigation() {
               iconName = focused ? "barcode" : "barcode-outline";
             } else if (route.name === "More") {
               iconName = focused ? "md-ellipsis-horizontal" : "md-ellipsis-horizontal-outline";
-            } else if (route.name === "Logout") {
-              iconName = focused ? "exit" : "exit-outline";
-            }
+            } 
             
             return (
               <IonicIcon
@@ -127,11 +115,6 @@ export default function SeniorNavigation() {
           component={MoreStackScreen}
           options={{ headerShown: false }}
         />
-        {/* <Tab.Screen
-          name="Logout"
-          component={SettingsStackScreen}
-          options={{ headerShown: false }}
-        /> */}
       </Tab.Navigator>
   );
 }

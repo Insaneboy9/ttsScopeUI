@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import IonicIcon from "react-native-vector-icons/Ionicons";
 
 import HomeScreen from "../screens/home/HomeScreen";
-import LogoutScreen from "../screens/settings/LogoutScreen";
 import BarcodeScannerScreen from "../screens/barcode/BarcodeScannerScreen";
 import ScopeDetailsScreen from "../screens/barcode/ScopeDetailsScreen";
 import WashScreen from "../screens/barcode/WashScreen";
@@ -15,7 +14,7 @@ import FullScheduleScreen from "../screens/home/FullScheduleScreen";
 import FourWeeklyScreen from "../screens/home/FourWeeklyScreen";
 import TwelveWeeklyScreen from "../screens/home/TwelveWeeklyScreen";
 import MoreScreen from "../screens/more/MoreScreen";
-
+import SettingsScreen from "../screens/more/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -49,6 +48,7 @@ const MoreStackScreen = () => {
   return(
   <MoreStack.Navigator>
     <MoreStack.Screen name="MoreScreen" component= {MoreScreen} options={{ headerShown: false }} />
+    <MoreStack.Screen name="SettingsScreen" component= {SettingsScreen} options={{ headerShown: false }} />
   </MoreStack.Navigator>
   )
 }
