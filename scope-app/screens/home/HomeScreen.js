@@ -50,7 +50,7 @@ export default function HomeScreen(props) {
       }
     }
     setJsonObj(json)
-    await timeout(10000) 
+    await timeout(10000) //this part i add delay because usestate didnt immediately update data, will reconsider this 
     console.log(jsonObj)
   }
 
