@@ -3,57 +3,53 @@ import {
   Text,
   View,
   SafeAreaView,
-  Button,
+  TextInput,
   TouchableOpacity,
   Alert,
+  Modal,
+  Pressable,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 import HeaderBar from "../../components/HeaderBar";
 import { auth } from "../../firebase";
 
 export default function MoreScreen(props) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [value, setValue] = useState("");
+
+  const goSettings = () => {
+    props.navigation.navigate("SettingsScreen")
+  }
+
   const handleSignOut = () => {
     auth
-    .signOut()
-    .then(() =>{
-      props.navigation.replace("LoginScreen")
-    })
-    .catch(error => alert(error.message))
+      .signOut()
+      .then(() => {
+        props.navigation.replace("LoginScreen");
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  const handleYearlyReschedule =() => {
+    if (value === "CONFIRM"){
+      Alert.alert("Yearly Reschedule confirmed! ")
+      setModalVisible(!modalVisible)
+      setValue("")
+    }
+    else {
+      Alert.alert("Invalid input")
+    }
   }
 
   const logoutAlert = () =>
-  Alert.alert(
-    "Confirm Action",
-    "Are you sure you want to do this?",
-    [
-    {
-            text: "Yes",
-            onPress: () => handleSignOut(),
-            style: "Yes",
-          },
-      {
-        text: "No",
-        onPress: () => Alert.alert("Action Cancelled Successfully"),
-        style: "No",
-      },
-    ],
-    {
-      cancelable: true,
-      onDismiss: () =>
-        Alert.alert(
-          "This alert was dismissed by tapping outside of the alert dialog."
-        ),
-    }
-  );
-  const showAlert = () =>
     Alert.alert(
       "Confirm Action",
       "Are you sure you want to do this?",
       [
         {
           text: "Yes",
-          onPress: () => Alert.alert("Scheduled Successfully"),
+          onPress: () => handleSignOut(),
           style: "Yes",
         },
         {
@@ -62,32 +58,60 @@ export default function MoreScreen(props) {
           style: "No",
         },
       ],
-      {
-        cancelable: true,
-        onDismiss: () =>
-          Alert.alert(
-            "This alert was dismissed by tapping outside of the alert dialog."
-          ),
-      }
     );
 
   return (
     <SafeAreaView style={styles.container}>
       <SafeAreaView style={styles.header}>
-      <HeaderBar />
+        <HeaderBar />
       </SafeAreaView>
       <SafeAreaView style={styles.button}>
-        <TouchableOpacity onPress={showAlert} style={styles.more}>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.more}
+        >
           <Text style={[styles.textSign, { color: "black" }]}>
             Yearly Reschedule
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.modalHeaderCloseText}>X</Text>
+            </TouchableOpacity>
+            <Text style={styles.modalText}>
+              Please enter "CONFIRM" below to reschedule for the year:{" "}
+            </Text>
+            <TextInput
+              onChangeText={setValue}
+              value={value}
+              placeholder="Enter here"
+              style={styles.input}
+            />
+            <Pressable
+              style={[styles.modalButton, styles.buttonClose]}
+              onPress={handleYearlyReschedule}
+            >
+              <Text style={styles.textStyle}>Enter</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <SafeAreaView style={styles.button}>
-        <TouchableOpacity style={styles.more}>
-          <Text style={[styles.textSign, { color: "black" }]}>
-            Settings
-          </Text>
+        <TouchableOpacity onPress = {goSettings} style={styles.more}>
+          <Text style={[styles.textSign, { color: "black" }]}>Settings</Text>
         </TouchableOpacity>
       </SafeAreaView>
       <SafeAreaView style={styles.button}>
@@ -114,7 +138,52 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   header: {
-    marginBottom:50,
+    marginBottom: 50,
   },
-
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalButton: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalHeaderCloseText: {
+    paddingLeft: 200,
+    paddingBottom: 20,
+  },
+  input : {
+    marginBottom: 20,
+    borderBottomWidth: 1
+  }
 });
