@@ -1,38 +1,86 @@
-import { StyleSheet, Text, SafeAreaView, View, Button } from "react-native";
-import React from "react";
-import { Table, Row, Rows } from "react-native-table-component";
-
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Button,
+  TouchableOpacity,
+} from "react-native";
+import { React, useState, useEffect } from "react";
 import HeaderBar from "../../components/HeaderBar";
 import SectionBar from "../../components/SectionBar";
+import {  Agenda } from "react-native-calendars";
+import { firestore } from "../../firebase";
 
-const tableHead = ["Brand", "Model", "Serial No.", "dje;de", "demode"]
-const tableData = [
-  ["1", "2", "3", "4", "5"],
-  ["a", "b", "c", "d", "5"],
-  ["1", "2", "3", "456\n789", "5"],
-  ["a", "b", "c", "d", "5"],
-  ["1", "2", "3", "4", "5"],
-];
-
+function toDateTime(secs) {
+  var t = new Date(1, 1, 1);
+  t.setSeconds(secs);
+  let year = 2022;
+  let month = t.getMonth();
+  let day = t.getDate();
+  return year + "-" + less10(month) + "-" + less10(day);
+}
+function less10(time) {
+  return time < 10 ? "0" + time : time;
+}
 export default function HomeScreen(props) {
 
   const goFullSchedule = () => {
-    props.navigation.navigate("FullScheduleScreen")
+    props.navigation.navigate("FullScheduleScreen");
+  };
+
+  const [scope, setScope] = useState([]);
+  const [jsonObj, setJsonObj] = useState({})
+
+  function timeout(delay) {
+    return new Promise( res => setTimeout(res, delay) );
+}
+
+  async function getScope() {
+    var json = {}
+    const snapshot = await firestore().collection("event").get();
+    setScope(snapshot.docs.map(doc => doc.data()))
+    if (scope.length>=0){
+      for (let i=0; i<scope.length; i++){
+        if (json[toDateTime(scope[i]["Wash_Date"])] != null){
+          json[toDateTime(scope[i]["Wash_Date"])].push({name: scope[i].Scope})
+        }else{
+        json[toDateTime(scope[i]["Wash_Date"])] = [{name: scope[i].Scope}]
+      }
+      }
+    }
+    setJsonObj(json)
+    await timeout(10000) //this part i add delay because usestate didnt immediately update data, will reconsider this 
+    console.log(jsonObj)
   }
+
+  useEffect(() => {
+    getScope()}, []
+  )
+
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar />
       <SafeAreaView style={styles.section}>
         <SectionBar name="WEEKLY SCHEDULE" />
       </SafeAreaView>
-      <Table
-        borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}
-        style={styles.table}
-      >
-        {/* if textStyle got problem, edit textStyle in row.js  */}
-        <Row data={tableHead} style={styles.head} textStyle={styles.text} />
-        <Rows data={tableData} textStyle={styles.text} />
-      </Table>
+
+      <SafeAreaView>
+        <Text>{scope.Scope}</Text>
+      </SafeAreaView>
+
+      <Agenda
+        items={jsonObj}
+        renderItem={(item, isFirst) => (
+          <ScrollView>
+            <TouchableOpacity style={styles.item}>
+              <Text style={styles.itemText}>{item.name}</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        )}
+      />
+
       <SafeAreaView style={styles.button}>
         <Button title="VIEW FULL SCHEDULE" onPress={goFullSchedule} />
       </SafeAreaView>
@@ -46,5 +94,17 @@ const styles = StyleSheet.create({
   text: { margin: 6 },
   table: { marginTop: 25 },
   section: { marginTop: 30 },
-  button: { margin:50,}
+  button: { margin: 50 },
+  item: {
+    backgroundColor: "white",
+    flex: 1,
+    borderRadius: 15,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 20,
+  },
+  itemText: {
+    color: "#888",
+    fontSize: 16,
+  },
 });

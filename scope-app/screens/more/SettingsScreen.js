@@ -1,17 +1,15 @@
 import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
 import React from "react";
 
-import HeaderBar from "../../components/HeaderBar";
+import HeaderBar2 from "../../components/HeaderBar2";
+import SectionBar from "../../components/SectionBar"
 
 export default function SettingsScreen(props) {
 
-  const goBack = () => {
-    props.navigation.navigate("MoreScreen")
-  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderBar />
+      <HeaderBar2 navigation={props.navigation}/>
 
       <SafeAreaView style={styles.section}>
         <SectionBar name="General Settings" />
