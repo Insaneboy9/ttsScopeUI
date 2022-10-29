@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import React from 'react'
 import SectionBar from '../../components/SectionBar'
@@ -57,9 +57,11 @@ export default function RepairScreen(props) {
           <Text style={styles.text_header}>Return Date</Text>
         </View>
         <View style={{marginHorizontal: "30%"}}>
-          <Text style={styles.text_header}>Return Date</Text>
           <CalendarPicker/>
         </View>
+      </SafeAreaView>
+      <SafeAreaView style={styles.button}>
+        <Button title='Submit'></Button>
       </SafeAreaView>
     </SafeAreaView>
   );
@@ -69,6 +71,9 @@ export default function RepairScreen(props) {
 const styles = StyleSheet.create({
   section: {
     marginTop: 30,
+  },
+  button: {
+    marginHorizontal: "5%",
   },
   box: {
     marginTop: "1%",
