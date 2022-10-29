@@ -20,47 +20,58 @@ function less10(time){
   return time<10 ? "0"+time :time;
 }
 export default function HomeScreen(props) {
-    const [scope, setscope] = useState([]);
-    const getScope=async()=>{
-                       const response=db.collection('event');
-                        const data=await response.get();
-                         data.docs.forEach(item=>{
-                         setscope([...scope,item.data()])
-                                           })
-                        }
-                        useEffect(() => {
-                             getScope();
-                           }, [])
 
   const goFullSchedule = () => {
     props.navigation.navigate("FullScheduleScreen")
   }
+/////////////////////////////////////////////////////////////////
+  const [scope, setscope] = useState({});
+  async function getScope() {
+    return firestore()
+      .collection("event")
+      .where('Document ID','!=','')
+      .get()
+      .then(querySnapshot => {
+          console.log('Total U: ', querySnapshot.size);
 
+          querySnapshot.forEach(documentSnapshot => {
+            console.log('User ID:  ', documentSnapshot.id, documentSnapshot.data());
+          });
+        });
 
+  }
+  getScope().then(scopeInstance => {
+      const scopedata = scopeInstance.data()
+      console.log(scopedata)
+      setscope(scopedata)
+
+    })
+  const keys = [];
+  const vals = [];
+  for (const [key, val] of Object.entries(scope)) {
+    console.log(scope)
+    keys.push(key);
+    vals.push([val]);
+  }
+const washDate=toDateTime(scope.Wash_Date)
+console.log(scope)
   return (
      <SafeAreaView style={styles.container}>
       <HeaderBar />
       <SafeAreaView style={styles.section}>
         <SectionBar name="WEEKLY SCHEDULE" />
+
       </SafeAreaView>
 
-        <SafeAreaView>
-                  {
-                    scope && scope.map(scopes=>{
-                    const WashDate=toDateTime(scopes.Wash_Date)
-                    const name=scopes.Scope
-                      return(
-//                            <Text>{ scopes.Scope}</Text>
-//                            <Text>{ scope.Scope}</Text>
-                         <Text>''+{ WashDate}+""{name}</Text>
-                      )
-                    })
-                  }</SafeAreaView>
+<SafeAreaView>
+<Text>{scope.Scope}</Text>
+
+              </SafeAreaView>
+
       <Agenda
 
                   items={{
-                    WashDate:[{name:'ddd'},{name:'sss'}],
-                    '2022-12-03': [{name: 'Cycling'}, {name: 'Walking'}, {name: 'Running'}],
+                    washDate: [{name: scope.Scope}, {name: 'Walking'}, {name: 'Running'}],
                     '2022-12-04': [{name: 'Writing'}],
                     '2022-12-05': [{name: 'Cycling'}, {name: 'Walking'}, {name: 'Running'}],
                     '2022-12-06': [{name: 'Writing', height: 80}]
@@ -104,4 +115,3 @@ const styles = StyleSheet.create({
       fontSize: 16,
     }
 });
-
