@@ -49,15 +49,19 @@ export default function HomeScreen(props) {
       }
       }
     }
-    setJsonObj(json)
-    await timeout(10000) //this part i add delay because usestate didnt immediately update data, will reconsider this 
-    console.log(jsonObj)
+    console.log(json)
+    return json
   }
 
-  useEffect(() => {
-    getScope()}, []
-  )
+  console.log("render")
 
+
+  useEffect(() => {
+    getScope().then((json)=> setJsonObj(json))}, [] //need refresh to get data, dk why still
+
+    // setJsonObj({"2022-10-28": [{"name": "This_is_positive_RgbsdWfdGdfg"}, {"name": "cluVvyysHJKv3oiUTo5U"}], "2022-11-03": [{"name": "SfbEfdbkJjida"}, {"name": "FewgwDghHdfthdg"}, {"name": "MegEEghEPPP"}], "2022-11-08": [{"name": "FrdfhGhtRhtWtr"}], "2022-11-09": [{"name": "QfbssdvKdsafgwr"}, {"name": "EqetFdsDfdhGfd"}, {"name": "QkbeLcdafnP"}, {"name": "EdssDSGHGdgwDSF"}], "2022-11-10": [{"name": "VngfhgRgrEgn"}, {"name": "WreeFojpBfgGfde"}, {"name": "RsdwwqTiiukJfeg"}, {"name": "DHYasdfgFGFJh"}], "2022-11-11": [{"name": "FberBgfnEfbHwrg"}, {"name": "FuoEilBjhlOrdg"}, {"name": "TthRterhEbhkj"}], "2022-11-12": [{"name": "SfdDgBfjfSHfsfJfCfs"}]})},[]
+  )
+  
 
   return (
     <SafeAreaView style={styles.container}>
