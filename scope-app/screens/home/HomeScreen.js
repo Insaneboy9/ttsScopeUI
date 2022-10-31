@@ -13,15 +13,15 @@ import {  Agenda } from "react-native-calendars";
 import { firestore } from "../../firebase";
 
 function toDateTime(secs) {
-  var t = new Date(1, 1, 1);
-  t.setSeconds(secs);
-  let year = 2022;
-  let month = t.getMonth();
-  let day = t.getDate();
-  return year + "-" + less10(month) + "-" + less10(day);
+    var t = new Date(1970, 0, 1);
+    t.setTime(secs * 1000);
+    let year=t.getFullYear();
+    let month=t.getMonth()+1
+    let day=t.getDate()+1
+    return year+"-"+less10(month)+"-"+less10(day);
 }
-function less10(time) {
-  return time < 10 ? "0" + time : time;
+function less10(time){
+  return time<10 ? "0"+time :time;
 }
 export default function HomeScreen(props) {
 
@@ -34,18 +34,20 @@ export default function HomeScreen(props) {
 
   function timeout(delay) {
     return new Promise( res => setTimeout(res, delay) );
-}
 
+}
   function processScope() {
     var json = {}
     if (scope.length >= 0) {
       for (let i = 0; i < scope.length; i++) {
-        if (json[toDateTime(scope[i]["Wash_Date"])] != null) {
-          json[toDateTime(scope[i]["Wash_Date"])].push({ name: scope[i].Scope });
+
+        if (json[toDateTime((scope[i]["Wash_Date"]).seconds)] != null) {
+          json[toDateTime((scope[i]["Wash_Date"]).seconds)].push({ name: scope[i].Scope });
         } else {
-          json[toDateTime(scope[i]["Wash_Date"])] = [{ name: scope[i].Scope }];
+          json[toDateTime((scope[i]["Wash_Date"]).seconds)] = [{ name: scope[i].Scope }];
         }
       }
+
       console.log(json)
       setJsonObj(json)
     }
@@ -82,13 +84,21 @@ export default function HomeScreen(props) {
 
       <Agenda
         items={jsonObj}
+
         renderItem={(item, isFirst) => (
+
           <ScrollView>
+
             <TouchableOpacity style={styles.item}>
-              <Text style={styles.itemText}>{item.name}</Text>
+
+            <Text style={styles.itemText}>{item.name}</Text>
             </TouchableOpacity>
+
+
           </ScrollView>
         )}
+    renderEmptyData = {() => {return (<SafeAreaView></SafeAreaView>);}}
+
       />
 
       <SafeAreaView style={styles.button}>
