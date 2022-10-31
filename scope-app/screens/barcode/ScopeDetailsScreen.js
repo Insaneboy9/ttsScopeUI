@@ -1,7 +1,7 @@
 import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { firestore } from "../../firebase";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderBar2 from "../../components/HeaderBar2";
 
 
@@ -10,6 +10,8 @@ export default function ScopeDetailsScreen(props) {
 
   
   const [scope, setscope] = useState({});
+  const [keys, setKeys] = useState([]);
+  const [vals, setVals] = useState([]);
   const goRepair = () => {
     props.navigation.navigate("RepairScreen", { scope });
   };
@@ -19,31 +21,50 @@ export default function ScopeDetailsScreen(props) {
   const goSample = () => {
     props.navigation.navigate("SampleScreen", { scope });
   };
+  function processScope() {
+    var keys = []
+    var vals = []
+    for (const [key, val] of Object.entries(scope)) {
+      keys.push([key])
+      vals.push([val])
+
+    }
+    console.log(keys)
+    setKeys(keys)
+    setVals(vals)
+ 
+  }
   async function getScope() {
+    console.log('Getting Scope Data from Firebase')
     return firestore()
       .collection("scope")
       .doc("cluVvyysHJKv3oiUTo5U")
       .get()
+      .then(scopeInstance => {
+        const scopedata = scopeInstance.data()
+  
+        setscope(data => ({
+          ...scope,
+          ...scopedata
+        }))
+
+ 
+      })
   }
+   
+  useEffect(() => {
+    getScope()
+  }, [])
 
-  getScope().then(scopeInstance => {
-      const scopedata = scopeInstance.data()
+ 
+  useEffect(() => {
+    processScope()
+  }, [scope])
 
-      setscope(data => ({
-        ...scope,
-        ...scopedata
-      }))
-
-    })
+  
 
 
-  const keys = [];
-  const vals = [];
-
-  for (const [key, val] of Object.entries(scope)) {
-    keys.push(key);
-    vals.push([val]);
-  }
+  
 
   return (
     <SafeAreaView>
