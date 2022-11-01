@@ -5,71 +5,80 @@ import {
   ScrollView,
   Button,
   TouchableOpacity,
+  Alert,
+  Modal,
+  Pressable,
+  View,
 } from "react-native";
 import { React, useState, useEffect } from "react";
 import HeaderBar from "../../components/HeaderBar";
 import SectionBar from "../../components/SectionBar";
-import {  Agenda } from "react-native-calendars";
+import { Agenda } from "react-native-calendars";
 import { firestore } from "../../firebase";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 function toDateTime(secs) {
-    var t = new Date(1970, 0, 1);
-    t.setTime(secs * 1000);
-    let year=t.getFullYear();
-    let month=t.getMonth()+1
-    let day=t.getDate()+1
-    return year+"-"+less10(month)+"-"+less10(day);
+  var t = new Date(1970, 0, 1);
+  t.setTime(secs * 1000);
+  let year = t.getFullYear();
+  let month = t.getMonth() + 1;
+  let day = t.getDate() + 1;
+  return year + "-" + less10(month) + "-" + less10(day);
 }
-function less10(time){
-  return time<10 ? "0"+time :time;
+function less10(time) {
+  return time < 10 ? "0" + time : time;
 }
 export default function HomeScreen(props) {
-
   const goFullSchedule = () => {
     props.navigation.navigate("FullScheduleScreen");
   };
 
   const [scope, setScope] = useState([]);
-  const [jsonObj, setJsonObj] = useState({})
+  const [jsonObj, setJsonObj] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedScope, setSelectedScope] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
-  function timeout(delay) {
-    return new Promise( res => setTimeout(res, delay) );
-
-}
   function processScope() {
-    var json = {}
+    var json = {};
     if (scope.length >= 0) {
       for (let i = 0; i < scope.length; i++) {
-
-        if (json[toDateTime((scope[i]["Wash_Date"]).seconds)] != null) {
-          json[toDateTime((scope[i]["Wash_Date"]).seconds)].push({ name: scope[i].Scope });
+        if (json[toDateTime(scope[i]["Wash_Date"].seconds)] != null) {
+          json[toDateTime(scope[i]["Wash_Date"].seconds)].push({
+            name: scope[i].Scope,
+          });
         } else {
-          json[toDateTime((scope[i]["Wash_Date"]).seconds)] = [{ name: scope[i].Scope }];
+          json[toDateTime(scope[i]["Wash_Date"].seconds)] = [
+            { name: scope[i].Scope },
+          ];
         }
       }
 
-      console.log(json)
-      setJsonObj(json)
+      console.log(json);
+      setJsonObj(json);
     }
   }
   async function getScope() {
-    firestore().collection("event").get().then(snapshot => {
-      setScope(snapshot.docs.map(doc => doc.data()))
-    });
+    firestore()
+      .collection("event")
+      .get()
+      .then((snapshot) => {
+        setScope(snapshot.docs.map((doc) => doc.data()));
+      });
   }
 
-  console.log("render")
-
+  const handleUpdate = () => {
+    console.log("hi");
+  };
 
   useEffect(() => {
-    getScope()}, [] //need refresh to get data, dk why still
-    // setJsonObj({"2022-10-28": [{"name": "This_is_positive_RgbsdWfdGdfg"}, {"name": "cluVvyysHJKv3oiUTo5U"}], "2022-11-03": [{"name": "SfbEfdbkJjida"}, {"name": "FewgwDghHdfthdg"}, {"name": "MegEEghEPPP"}], "2022-11-08": [{"name": "FrdfhGhtRhtWtr"}], "2022-11-09": [{"name": "QfbssdvKdsafgwr"}, {"name": "EqetFdsDfdhGfd"}, {"name": "QkbeLcdafnP"}, {"name": "EdssDSGHGdgwDSF"}], "2022-11-10": [{"name": "VngfhgRgrEgn"}, {"name": "WreeFojpBfgGfde"}, {"name": "RsdwwqTiiukJfeg"}, {"name": "DHYasdfgFGFJh"}], "2022-11-11": [{"name": "FberBgfnEfbHwrg"}, {"name": "FuoEilBjhlOrdg"}, {"name": "TthRterhEbhkj"}], "2022-11-12": [{"name": "SfdDgBfjfSHfsfJfCfs"}]})},[]
-  )
-  
+    getScope();
+  }, []);
+
   useEffect(() => {
-    processScope()
-  }, [scope])
-  
+    processScope();
+  }, [scope]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -84,25 +93,66 @@ export default function HomeScreen(props) {
 
       <Agenda
         items={jsonObj}
-
         renderItem={(item, isFirst) => (
-
           <ScrollView>
-
-            <TouchableOpacity style={styles.item}>
-
-            <Text style={styles.itemText}>{item.name}</Text>
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() => {
+                setSelectedScope(item);
+                setModalVisible(true);
+              }}
+            >
+              <Text style={styles.itemText}>{item.name}</Text>
             </TouchableOpacity>
-
-
           </ScrollView>
         )}
-    renderEmptyData = {() => {return (<SafeAreaView></SafeAreaView>);}}
-
+        renderEmptyData={() => {
+          return <SafeAreaView></SafeAreaView>;
+        }}
       />
 
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.modalHeaderCloseText}>X</Text>
+            </TouchableOpacity>
+            <Text style={styles.modalText}>
+              Please select date to reschedule scope {selectedScope.name}:
+            </Text>
+            <Button title="Change Date" onPress={() => setOpen(true)} />
+            {(open) ? (
+              <DateTimePicker
+                mode="date"
+                display="default"
+                value={new Date()}
+                onChange= {() => {setOpen(false); setDate(value);}}
+              />
+            ) : (
+              []
+            )}
+            <SafeAreaView style={styles.postData}>
+            <Pressable
+              style={[styles.modalButton, styles.buttonClose]}
+              onPress={handleUpdate}
+            >
+              <Text style={styles.textStyle}>Confirm</Text>
+            </Pressable>
+            </SafeAreaView>
+          </View>
+        </View>
+      </Modal>
+
       <SafeAreaView style={styles.button}>
-        <Button title="VIEW FULL SCHEDULE" onPress={goFullSchedule} />
+        <Button title="VIEW 4/12 Weekly Schedules" onPress={goFullSchedule} />
       </SafeAreaView>
     </SafeAreaView>
   );
@@ -127,4 +177,53 @@ const styles = StyleSheet.create({
     color: "#888",
     fontSize: 16,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalButton: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalHeaderCloseText: {
+    paddingLeft: 200,
+    paddingBottom: 20,
+  },
+  input: {
+    marginBottom: 20,
+    borderBottomWidth: 1,
+  },
+  postData: {
+    marginTop:20
+  }
 });
