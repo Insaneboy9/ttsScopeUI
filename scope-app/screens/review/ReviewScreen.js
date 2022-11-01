@@ -18,6 +18,7 @@ export default function ReviewScreen() {
         }
       ])
   }
+
   async function getScope() {
     console.log('Getting Scope Data from Firebase here')
     firestore()
@@ -26,6 +27,7 @@ export default function ReviewScreen() {
       .then((scopeInstance) => {
         setScope(scopeInstance.docs.map((doc) => doc.data()));
       });
+    console.log(scope)
   }
    
   useEffect(() => {
@@ -81,10 +83,10 @@ export default function ReviewScreen() {
         <SectionBar name="PENDING APPROVAL" />
       </SafeAreaView>
       <SafeAreaView>
-        <GenerateCard data={scope} ></GenerateCard>
+        {/* ({scope}) ? <GenerateCard data={scope} ></GenerateCard> : <Text>Loading...</Text> */}
       </SafeAreaView>
       <SafeAreaView>
-        <Card data={scope}/>
+       { scope.length>0 ? <Card data={scope}/> : <Text>Loading...</Text> }
       </SafeAreaView>
       {/* <SafeAreaView style={styles.box}>
         <Text>BRAND: OLYMPUS</Text>
