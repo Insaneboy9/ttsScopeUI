@@ -11,16 +11,12 @@ export default function ReviewScreen() {
   const [table, setTable] = useState([])
 
   function processScope() {
-      console.log(scope)
       setTable([
         {
           'title': 'For review',
-          'data': [scope.name]
+          'data': [scope.brand]
         }
       ])
-      console.log('scoppe')
-      console.log(table)
-
   }
   async function getScope() {
     console.log('Getting Scope Data from Firebase here')
@@ -40,10 +36,10 @@ export default function ReviewScreen() {
     processScope()
   }, [scope])
 
-  const Card = ({ data }) => (
+  const Card = (props) => (
     <SafeAreaView style={styles.item}>
      <SafeAreaView style={styles.box}>
-        <Text>BRAND: {data.brand}</Text>
+        <Text>BRAND: {props.data[0].brand}</Text>
         <Text>SCOPE TYPE: BRONCHOSCOPE</Text>
         <Text>MODEL NO.: BFP 190 (602)</Text>
         <Text>SERIAL NO.: 2912702</Text>
@@ -54,22 +50,22 @@ export default function ReviewScreen() {
     </SafeAreaView>
   );
   
-  const Item = ({ title }) => (
+  const Item = (props) => (
     <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{props.title}</Text>
     </View>
   );
   
-  const GenerateCard = ({data}) => {
+  const GenerateCard = (props) => {
     console.log('data')
-    console.log(data)
-    if (data.length != 0){
+    console.log(props)
+    if (props.data.length != 0){
       console.log("Generated")
       return (
         <SectionList
           sections={table}
           keyExtractor={(item, index) => item + index}
-          renderItem={({ item }) => <Item title={data} />}
+          renderItem={({item}) => <Item title={item} />}
           renderSectionHeader={({ section: { title } }) => (
             <Text style={styles.header}>{title}</Text>
           )}
@@ -86,6 +82,9 @@ export default function ReviewScreen() {
       </SafeAreaView>
       <SafeAreaView>
         <GenerateCard data={scope} ></GenerateCard>
+      </SafeAreaView>
+      <SafeAreaView>
+        <Card data={scope}/>
       </SafeAreaView>
       {/* <SafeAreaView style={styles.box}>
         <Text>BRAND: OLYMPUS</Text>
