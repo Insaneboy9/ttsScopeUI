@@ -37,7 +37,7 @@ export default function HomeScreen(props) {
   const [jsonObj, setJsonObj] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedScope, setSelectedScope] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [open, setOpen] = useState(false);
 
   function processScope() {
@@ -59,6 +59,7 @@ export default function HomeScreen(props) {
       setJsonObj(json);
     }
   }
+  
   async function getScope() {
     firestore()
       .collection("event")
@@ -68,8 +69,30 @@ export default function HomeScreen(props) {
       });
   }
 
+
+  async function updateScope(formattedDate) {
+    firestore()
+      .collection("event")
+      .where("Scope", "==", selectedScope.name)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => doc.ref.update({
+          "Scope" : selectedScope.name,
+          "Wash_Date" : formattedDate
+        }))
+      })
+  }
+
   const handleUpdate = () => {
-    console.log("hi");
+    if (date == null || date.type === "dismissed") {
+      Alert.alert("You did not select a date to reschedule");
+    } else {
+      var formattedDate = new Date(date.nativeEvent.timestamp);
+      updateScope(formattedDate)
+      console.log(formattedDate) //date correct, but post data +1day?
+    }
+    setModalVisible(false);
+    Alert.alert( selectedScope.name + " has been rescheduled to " + formattedDate.toString())
   };
 
   useEffect(() => {
@@ -129,23 +152,26 @@ export default function HomeScreen(props) {
               Please select date to reschedule scope {selectedScope.name}:
             </Text>
             <Button title="Change Date" onPress={() => setOpen(true)} />
-            {(open) ? (
+            {open ? (
               <DateTimePicker
                 mode="date"
                 display="default"
                 value={new Date()}
-                onChange= {() => {setOpen(false); setDate(value);}}
+                onChange={(newDate) => {
+                  setOpen(false);
+                  setDate(newDate);
+                }}
               />
             ) : (
               []
             )}
             <SafeAreaView style={styles.postData}>
-            <Pressable
-              style={[styles.modalButton, styles.buttonClose]}
-              onPress={handleUpdate}
-            >
-              <Text style={styles.textStyle}>Confirm</Text>
-            </Pressable>
+              <Pressable
+                style={[styles.modalButton, styles.buttonClose]}
+                onPress={handleUpdate}
+              >
+                <Text style={styles.textStyle}>Confirm</Text>
+              </Pressable>
             </SafeAreaView>
           </View>
         </View>
@@ -224,6 +250,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   postData: {
-    marginTop:20
-  }
+    marginTop: 20,
+  },
 });
