@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Button ,useWindowDimensions } from "react-native";
 import React from "react";
 import { Table, Row, Rows } from "react-native-table-component";
 import HeaderBar2 from "../../components/HeaderBar2";
 import SectionBar from "../../components/SectionBar";
-
+import { TabView, SceneMap } from 'react-native-tab-view';
 const tableHead = ["Brand", "Model No.", "Serial No."];
 const tableData = [
   ["1", "2", "3"],
@@ -12,7 +12,36 @@ const tableData = [
   ["a", "b", "c"],
   ["1", "2", "3"],
 ];
+const FirstRoute = () => (
 
+
+  <Table
+            borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}
+            style={styles.table}
+          >
+            {/* if textStyle got problem, edit textStyle in row.js  */}
+            <Row data={tableHead} style={styles.head} textStyle={styles.text} />
+            <Rows data={tableData} textStyle={styles.text} />
+          </Table>
+
+);
+
+const SecondRoute = () => (
+  <Table
+              borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}
+              style={styles.table}
+            >
+              {/* if textStyle got problem, edit textStyle in row.js  */}
+              <Row data={tableHead} style={styles.head} textStyle={styles.text} />
+              <Rows data={tableData} textStyle={styles.text} />
+            </Table>
+
+);
+
+const renderScene = SceneMap({
+  first: FirstRoute,
+  second: SecondRoute,
+});
 export default function FullScheduleScreen(props) {
   const goFourWeekly = () => {
     props.navigation.navigate("FourWeeklyScreen");
@@ -21,60 +50,85 @@ export default function FullScheduleScreen(props) {
   const goTwelveWeekly = () => {
     props.navigation.navigate("TwelveWeeklyScreen");
   };
+const layout = useWindowDimensions();
+
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: '4 WEEKLY SCHEDULE' },
+    { key: 'second', title: '12 WEEKLY SCHEDULE' },
+  ]);
 
   return (
-    <SafeAreaView>
-      <HeaderBar2 navigation={props.navigation} />
-      <SafeAreaView style={styles.section}>
-        <SectionBar name="4 WEEKLY SCHEDULE" />
-      </SafeAreaView>
-      <View style={{ flexDirection: "row" }}>
-        <Table
-          borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}
-          style={styles.table}
-        >
-          {/* if textStyle got problem, edit textStyle in row.js  */}
-          <Row data={tableHead} style={styles.head} textStyle={styles.text} />
-          <Rows data={tableData} textStyle={styles.text} />
-        </Table>
-        <SafeAreaView style={styles.button}>
-          <Button title="VIEW" onPress={goFourWeekly} />
-          <View style={styles.space} />
-          <Button title="VIEW" onPress={goFourWeekly} />
-          <View style={styles.space} />
-          <Button title="VIEW" onPress={goFourWeekly} />
-          <View style={styles.space} />
-          <Button title="VIEW" onPress={goFourWeekly} />
-          <View style={styles.space} />
-          <Button title="VIEW" onPress={goFourWeekly} />
-        </SafeAreaView>
-      </View>
+  <>
+  <View style={styles.space} />
+  <View style={styles.space} />
+  <View>
+        <HeaderBar2 navigation={props.navigation} />
+ </View>
+  <View style={styles.space} />
+  <View style={styles.space} />
+  <View style={styles.space} />
+  <View style={styles.space} />
 
-      <SafeAreaView style={styles.section}>
-        <SectionBar name="12 WEEKLY SCHEDULE" />
-      </SafeAreaView>
-      <View style={{ flexDirection: "row" }}>
-        <Table
-          borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}
-          style={styles.table}
-        >
-          {/* if textStyle got problem, edit textStyle in row.js  */}
-          <Row data={tableHead} style={styles.head} textStyle={styles.text} />
-          <Rows data={tableData} textStyle={styles.text} />
-        </Table>
-        <SafeAreaView style={styles.button}>
-          <Button title="VIEW" onPress={goTwelveWeekly} />
-          <View style={styles.space} />
-          <Button title="VIEW" onPress={goTwelveWeekly} />
-          <View style={styles.space} />
-          <Button title="VIEW" onPress={goTwelveWeekly} />
-          <View style={styles.space} />
-          <Button title="VIEW" onPress={goTwelveWeekly} />
-          <View style={styles.space} />
-          <Button title="VIEW" onPress={goTwelveWeekly} />
-        </SafeAreaView>
-      </View>
-    </SafeAreaView>
+  <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: layout.width }}
+      />
+      </>
+//    <SafeAreaView>
+//      <HeaderBar2 navigation={props.navigation} />
+//      <SafeAreaView style={styles.section}>
+//        <SectionBar name="4 WEEKLY SCHEDULE" />
+//      </SafeAreaView>
+//      <View style={{ flexDirection: "row" }}>
+//        <Table
+//          borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}
+//          style={styles.table}
+//        >
+//          {/* if textStyle got problem, edit textStyle in row.js  */}
+//          <Row data={tableHead} style={styles.head} textStyle={styles.text} />
+//          <Rows data={tableData} textStyle={styles.text} />
+//        </Table>
+//        <SafeAreaView style={styles.button}>
+//          <Button title="VIEW" onPress={goFourWeekly} />
+//          <View style={styles.space} />
+//          <Button title="VIEW" onPress={goFourWeekly} />
+//          <View style={styles.space} />
+//          <Button title="VIEW" onPress={goFourWeekly} />
+//          <View style={styles.space} />
+//          <Button title="VIEW" onPress={goFourWeekly} />
+//          <View style={styles.space} />
+//          <Button title="VIEW" onPress={goFourWeekly} />
+//        </SafeAreaView>
+//      </View>
+//
+//      <SafeAreaView style={styles.section}>
+//        <SectionBar name="12 WEEKLY SCHEDULE" />
+//      </SafeAreaView>
+//      <View style={{ flexDirection: "row" }}>
+//        <Table
+//          borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}
+//          style={styles.table}
+//        >
+//          {/* if textStyle got problem, edit textStyle in row.js  */}
+//          <Row data={tableHead} style={styles.head} textStyle={styles.text} />
+//          <Rows data={tableData} textStyle={styles.text} />
+//        </Table>
+//        <SafeAreaView style={styles.button}>
+//          <Button title="VIEW" onPress={goTwelveWeekly} />
+//          <View style={styles.space} />
+//          <Button title="VIEW" onPress={goTwelveWeekly} />
+//          <View style={styles.space} />
+//          <Button title="VIEW" onPress={goTwelveWeekly} />
+//          <View style={styles.space} />
+//          <Button title="VIEW" onPress={goTwelveWeekly} />
+//          <View style={styles.space} />
+//          <Button title="VIEW" onPress={goTwelveWeekly} />
+//        </SafeAreaView>
+//      </View>
+//    </SafeAreaView>
   );
 }
 
