@@ -35,7 +35,7 @@ export default function ScopeDetailsScreen(props) {
  
   }
   async function getScope() {
-    console.log('Getting Scope Data from Firebase')
+    console.log('Getting Scope Data from Firebase there')
     return firestore()
       .collection("scope")
       .doc("cluVvyysHJKv3oiUTo5U")

@@ -1,25 +1,64 @@
-import { SafeAreaView, StyleSheet, View, Text, Button, SectionList } from "react-native";
+import { SafeAreaView, StyleSheet, View, Text, Button, SectionList, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import HeaderBar from "../../components/HeaderBar";
 import SectionBar from "../../components/SectionBar";
 import { firestore } from "../../firebase";
+import { Table } from "react-native-table-component";
 
 export default function ReviewScreen() {
   
   const [scope, setScope] = useState([])
-  const [table, setTable] = useState([])
+  const [pendingTable, setPendingTable] = useState([])
+  const [reviewedTable, setReviewedTable] = useState([])
+  const [wash, setWash] = useState([])
 
-  function processScope() {
-      setTable([
-        {
-          'title': 'For review',
-          'data': [scope.brand]
-        }
-      ])
+  function processPendingScope() {
+    // Combine the data
+    setPendingTable([])
+    if (scope.length < 1) {
+      return;
+    }
+    if (wash.length < 1) {
+      return;
+    }
+
+    wash.forEach((wash) => {
+      if (!wash.review) {
+        scope.forEach((scope) => {
+          if (wash.serial == scope.serial) {
+            setPendingTable([...pendingTable, { ...wash, ...scope }]);
+          }
+        });
+      }
+    });
+    console.log(pendingTable.size)
+  }
+
+  function processReviewedScope() {
+    // Combine the data
+    setReviewedTable([])
+    if (scope.length < 1) {
+      return;
+    }
+    if (wash.length < 1) {
+      return;
+    }
+
+    wash.forEach((wash) => {
+      if (!wash.review) {
+        scope.forEach((scope) => {
+          if (wash.serial == scope.serial) {
+            setReviewedTable([...reviewedTable, { ...wash, ...scope }]);
+          }
+        });
+      }
+    });
+    console.log(reviewedTable.length)
   }
 
   async function getScope() {
+    setScope([])
     console.log('Getting Scope Data from Firebase here')
     firestore()
       .collection("scope")
@@ -30,27 +69,31 @@ export default function ReviewScreen() {
     console.log(scope)
   }
    
+  async function getWash() {
+    setWash([])
+    console.log('Getting wash Data from Firebase here')
+    firestore()
+      .collection("wash")
+      .get()
+      .then((washInstance) => {
+        setWash(washInstance.docs.map((doc) => doc.data()));
+      });
+    console.log(wash)
+  }
+
   useEffect(() => {
     getScope()
   }, [])
 
   useEffect(() => {
-    processScope()
-  }, [scope])
+    getWash()
+  }, [])
 
-  const Card = (props) => (
-    <SafeAreaView style={styles.item}>
-     <SafeAreaView style={styles.box}>
-        <Text>BRAND: {props.data[0].brand}</Text>
-        <Text>SCOPE TYPE: BRONCHOSCOPE</Text>
-        <Text>MODEL NO.: BFP 190 (602)</Text>
-        <Text>SERIAL NO.: 2912702</Text>
-        <SafeAreaView style={styles.button}>
-        <Button title="Review" color="#80BDE3" />
-        </SafeAreaView> 
-      </SafeAreaView>
-    </SafeAreaView>
-  );
+  useEffect(() => {
+    processPendingScope()
+    processReviewedScope()
+  }, [scope, wash])
+
   
   const Item = (props) => (
     <View style={styles.item}>
@@ -58,55 +101,61 @@ export default function ReviewScreen() {
     </View>
   );
   
-  const GenerateCard = (props) => {
-    console.log('data')
-    console.log(props)
-    if (props.data.length != 0){
-      console.log("Generated")
-      return (
-        <SectionList
-          sections={table}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({ section: { title } }) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-      );
-    }
-  }
-
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       <HeaderBar />
       <SafeAreaView style={styles.section}>
         <SectionBar name="PENDING APPROVAL" />
       </SafeAreaView>
+      {console.log(pendingTable.length)}
       <SafeAreaView>
-        {/* ({scope}) ? <GenerateCard data={scope} ></GenerateCard> : <Text>Loading...</Text> */}
+        {pendingTable.length > 0 ? (
+          pendingTable.map((d) => {
+            return (
+              <SafeAreaView style={styles.item}>
+                <SafeAreaView style={styles.box}>
+                  <Text>BRAND: {d.brand}</Text>
+                  <Text>SCOPE TYPE: {d.type}</Text>
+                  <Text>MODEL NO.: {d.model}</Text>
+                  <Text>SERIAL NO.: {d.serial}</Text>
+                  <Text>SERIAL NO.: {d.month}</Text>
+                  <SafeAreaView style={styles.button}>
+                    <Button title="Review" color="#80BDE3" />
+                  </SafeAreaView>
+                </SafeAreaView>
+              </SafeAreaView>
+            );
+          })
+        ) : (
+          <Text>Loading...</Text>
+        )}
+      </SafeAreaView>
+      <SafeAreaView style={styles.section}>
+        <SectionBar name="Reviewed APPROVAL" />
       </SafeAreaView>
       <SafeAreaView>
-       { scope.length>0 ? <Card data={scope}/> : <Text>Loading...</Text> }
+        {reviewedTable.length > 0 ? (
+          reviewedTable.map((d) => {
+            return (
+              <SafeAreaView style={styles.item}>
+                <SafeAreaView style={styles.box}>
+                  <Text>BRAND: {d.brand}</Text>
+                  <Text>SCOPE TYPE: {d.type}</Text>
+                  <Text>MODEL NO.: {d.model}</Text>
+                  <Text>SERIAL NO.: {d.serial}</Text>
+                  <Text>SERIAL NO.: {d.month}</Text>
+                  <SafeAreaView style={styles.button}>
+                    <Button title="Review" color="#80BDE3" />
+                  </SafeAreaView>
+                </SafeAreaView>
+              </SafeAreaView>
+            );
+          })
+        ) : (
+          <Text>Loading...</Text>
+        )}
       </SafeAreaView>
-      {/* <SafeAreaView style={styles.box}>
-        <Text>BRAND: OLYMPUS</Text>
-        <Text>SCOPE TYPE: BRONCHOSCOPE</Text>
-        <Text>MODEL NO.: BFP 190 (602)</Text>
-        <Text>SERIAL NO.: 2912702</Text>
-        <SafeAreaView style={styles.button}>
-        <Button title="Review" color="#80BDE3" />
-        </SafeAreaView>
-      </SafeAreaView>
-      <SafeAreaView style={styles.box}>
-        <Text>BRAND: OLYMPUS</Text>
-        <Text>SCOPE TYPE: BRONCHOSCOPE</Text>
-        <Text>MODEL NO.: BFP 190 (602)</Text>
-        <Text>SERIAL NO.: 2912702</Text>
-        <SafeAreaView style={styles.button}>
-        <Button title="Review" color="#80BDE3" />
-        </SafeAreaView>
-      </SafeAreaView> */}
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
