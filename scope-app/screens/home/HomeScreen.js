@@ -9,6 +9,7 @@ import {
   Modal,
   Pressable,
   View,
+  ActivityIndicator,
 } from "react-native";
 import { React, useState, useEffect } from "react";
 import HeaderBar from "../../components/HeaderBar";
@@ -22,7 +23,7 @@ function toDateTime(secs) {
   t.setTime(secs * 1000);
   let year = t.getFullYear();
   let month = t.getMonth() + 1;
-  let day = t.getDate() + 1;
+  let day = t.getDate();
   return year + "-" + less10(month) + "-" + less10(day);
 }
 function less10(time) {
@@ -39,6 +40,7 @@ export default function HomeScreen(props) {
   const [selectedScope, setSelectedScope] = useState("");
   const [date, setDate] = useState(null);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   function processScope() {
     var json = {};
@@ -57,10 +59,14 @@ export default function HomeScreen(props) {
 
       console.log(json);
       setJsonObj(json);
+      setLoading(false)
     }
   }
-  
+
+  const delay = (time) => new Promise((res) => setTimeout(res, time));
+
   async function getScope() {
+    await delay(1000);
     firestore()
       .collection("event")
       .get()
@@ -69,30 +75,36 @@ export default function HomeScreen(props) {
       });
   }
 
-
   async function updateScope(formattedDate) {
     firestore()
       .collection("event")
       .where("Scope", "==", selectedScope.name)
       .get()
       .then((snapshot) => {
-        snapshot.forEach((doc) => doc.ref.update({
-          "Scope" : selectedScope.name,
-          "Wash_Date" : formattedDate
-        }))
-      })
+        snapshot.forEach((doc) =>
+          doc.ref.update({
+            Scope: selectedScope.name,
+            Wash_Date: formattedDate,
+          })
+        );
+      });
   }
 
   const handleUpdate = () => {
     if (date == null || date.type === "dismissed") {
       Alert.alert("You did not select a date to reschedule");
     } else {
+      setLoading(true)
       var formattedDate = new Date(date.nativeEvent.timestamp);
-      updateScope(formattedDate)
-      console.log(formattedDate) //date correct, but post data +1day?
+      updateScope(formattedDate);
+      Alert.alert(
+        selectedScope.name +
+          " has been rescheduled to " +
+          formattedDate.toString()
+      );
     }
+    getScope();
     setModalVisible(false);
-    Alert.alert( selectedScope.name + " has been rescheduled to " + formattedDate.toString())
   };
 
   useEffect(() => {
@@ -104,83 +116,97 @@ export default function HomeScreen(props) {
   }, [scope]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <HeaderBar />
-      <SafeAreaView style={styles.section}>
-        <SectionBar name="WEEKLY SCHEDULE" />
-      </SafeAreaView>
+    <>
+      <SafeAreaView style={styles.container}>
+        <HeaderBar />
+        <SafeAreaView style={styles.section}>
+          <SectionBar name="WEEKLY SCHEDULE" />
+        </SafeAreaView>
 
-      <SafeAreaView>
+        {/* <SafeAreaView>
         <Text>{scope.Scope}</Text>
-      </SafeAreaView>
+      </SafeAreaView> */}
+        {loading ? (
+          <View style={styles.spinner}>
+            <ActivityIndicator size="large" />
+          </View>
+        ) : (
+          <>
+            <Agenda
+              items={jsonObj}
+              renderItem={(item, isFirst) => (
+                <ScrollView>
+                  <TouchableOpacity
+                    style={styles.item}
+                    onPress={() => {
+                      setSelectedScope(item);
+                      setModalVisible(true);
+                    }}
+                  >
+                    <Text style={styles.itemText}>{item.name}</Text>
+                  </TouchableOpacity>
+                </ScrollView>
+              )}
+              renderEmptyData={() => {
+                return <SafeAreaView></SafeAreaView>;
+              }}
+            />
 
-      <Agenda
-        items={jsonObj}
-        renderItem={(item, isFirst) => (
-          <ScrollView>
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => {
-                setSelectedScope(item);
-                setModalVisible(true);
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
               }}
             >
-              <Text style={styles.itemText}>{item.name}</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        )}
-        renderEmptyData={() => {
-          return <SafeAreaView></SafeAreaView>;
-        }}
-      />
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <Text style={styles.modalHeaderCloseText}>X</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.modalText}>
+                    Please select date to reschedule scope {selectedScope.name}:
+                  </Text>
+                  <Button title="Change Date" onPress={() => setOpen(true)} />
+                  {open ? (
+                    <DateTimePicker
+                      mode="date"
+                      display="default"
+                      value={new Date()}
+                      onChange={(newDate) => {
+                        setOpen(false);
+                        setDate(newDate);
+                      }}
+                    />
+                  ) : (
+                    []
+                  )}
+                  <SafeAreaView style={styles.postData}>
+                    <Pressable
+                      style={[styles.modalButton, styles.buttonClose]}
+                      onPress={handleUpdate}
+                    >
+                      <Text style={styles.textStyle}>Confirm</Text>
+                    </Pressable>
+                  </SafeAreaView>
+                </View>
+              </View>
+            </Modal>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.modalHeaderCloseText}>X</Text>
-            </TouchableOpacity>
-            <Text style={styles.modalText}>
-              Please select date to reschedule scope {selectedScope.name}:
-            </Text>
-            <Button title="Change Date" onPress={() => setOpen(true)} />
-            {open ? (
-              <DateTimePicker
-                mode="date"
-                display="default"
-                value={new Date()}
-                onChange={(newDate) => {
-                  setOpen(false);
-                  setDate(newDate);
-                }}
+            <SafeAreaView style={styles.button}>
+              <Button
+                title="VIEW 4/12 Weekly Schedules"
+                onPress={goFullSchedule}
               />
-            ) : (
-              []
-            )}
-            <SafeAreaView style={styles.postData}>
-              <Pressable
-                style={[styles.modalButton, styles.buttonClose]}
-                onPress={handleUpdate}
-              >
-                <Text style={styles.textStyle}>Confirm</Text>
-              </Pressable>
             </SafeAreaView>
-          </View>
-        </View>
-      </Modal>
-
-      <SafeAreaView style={styles.button}>
-        <Button title="VIEW 4/12 Weekly Schedules" onPress={goFullSchedule} />
+          </>
+        )}
       </SafeAreaView>
-    </SafeAreaView>
+    </>
   );
 }
 
@@ -251,5 +277,12 @@ const styles = StyleSheet.create({
   },
   postData: {
     marginTop: 20,
+  },
+  spinner: {
+    flex: 1,
+    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
   },
 });
