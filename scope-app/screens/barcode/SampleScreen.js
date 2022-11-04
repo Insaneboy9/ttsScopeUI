@@ -7,7 +7,13 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 import DropDownPicker from 'react-native-dropdown-picker'
 
 export default function SampleScreen(props) {
+
   const route = useRoute()
+
+  const goHomeScreen = () => {
+    // Send info to firebase here 
+    props.navigation.navigate("Home")
+  }
 
   const keys = []
   const vals = []
@@ -73,7 +79,7 @@ export default function SampleScreen(props) {
         />
       </SafeAreaView>
       <SafeAreaView style={styles.button}>
-        <Button title='Submit'></Button>
+        <Button title='Submit' onPress={goHomeScreen}></Button>
       </SafeAreaView>
     </SafeAreaView>
   );
