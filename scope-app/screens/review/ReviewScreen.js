@@ -1,17 +1,20 @@
 import { SafeAreaView, StyleSheet, View, Text, Button, SectionList, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRoute } from "react";
 
 import HeaderBar from "../../components/HeaderBar";
 import SectionBar from "../../components/SectionBar";
 import { firestore } from "../../firebase";
-import { Table } from "react-native-table-component";
 
 export default function ReviewScreen() {
-  
+
   const [scope, setScope] = useState([])
   const [pendingTable, setPendingTable] = useState([])
   const [reviewedTable, setReviewedTable] = useState([])
   const [wash, setWash] = useState([])
+
+  const goReviewDetail = (props) => {
+    props.navigation.navigate("ReviewDetail", { scope });
+  };
 
   function processPendingScope() {
     // Combine the data

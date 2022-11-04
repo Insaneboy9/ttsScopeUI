@@ -5,7 +5,6 @@ import HeaderBar2 from '../../components/HeaderBar2'
 import { useRoute } from '@react-navigation/native'
 import { firestore } from '../../firebase'
 import DatePicker from 'react-native-modern-datepicker';
-import {moment} from 'moment'
 
 export default function WashScreen(props) {
 
@@ -28,7 +27,8 @@ export default function WashScreen(props) {
         'accession': accession,
         'washBy': washBy,
         'collectedBy': collectedBy,
-        'circulatedBy': circulatedBy
+        'circulatedBy': circulatedBy,
+        'review': false,
       })
       .then(() => {
         console.log('Wash Submitted')
