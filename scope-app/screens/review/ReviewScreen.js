@@ -115,7 +115,7 @@ export default function ReviewScreen() {
         {pendingTable.length > 0 ? (
           pendingTable.map((d) => {
             return (
-              <SafeAreaView style={styles.item}>
+              <SafeAreaView style={styles.item} key={d.serial}>
                 <SafeAreaView style={styles.box}>
                   <Text>BRAND: {d.brand}</Text>
                   <Text>SCOPE TYPE: {d.type}</Text>
@@ -140,7 +140,7 @@ export default function ReviewScreen() {
         {reviewedTable.length > 0 ? (
           reviewedTable.map((d) => {
             return (
-              <SafeAreaView style={styles.item}>
+              <SafeAreaView style={styles.item} key={d.serial}>
                 <SafeAreaView style={styles.box}>
                   <Text>BRAND: {d.brand}</Text>
                   <Text>SCOPE TYPE: {d.type}</Text>
