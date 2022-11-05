@@ -6,11 +6,11 @@ import SectionBar from "../../components/SectionBar";
 import { TabView, SceneMap } from 'react-native-tab-view';
 const tableHead = ["Brand", "Model No.", "Serial No."];
 const tableData = [
-  ["1", "2", "3"],
-  ["a", "b", "c"],
-  ["1", "2", "3"],
-  ["a", "b", "c"],
-  ["1", "2", "3"],
+  ["Panasonic", "EO 552", "3355g34"],
+  ["Fujinon", "DE 900", "66c6434"],
+  ["Ajinomoto", "KO 222", "3g44865"],
+  ["Johnson", "QE 112", "75c3324"],
+  ["Thyme", "AS 240", "3h53542"],
 ];
 const FirstRoute = () => (
 
@@ -20,7 +20,7 @@ const FirstRoute = () => (
             style={styles.table}
           >
             {/* if textStyle got problem, edit textStyle in row.js  */}
-            <Row data={tableHead} style={styles.head} textStyle={styles.text} />
+            <Row data={tableHead} style={styles.head} textStyle={styles.textH} />
             <Rows data={tableData} textStyle={styles.text} />
           </Table>
 
@@ -32,7 +32,7 @@ const SecondRoute = () => (
               style={styles.table}
             >
               {/* if textStyle got problem, edit textStyle in row.js  */}
-              <Row data={tableHead} style={styles.head} textStyle={styles.text} />
+              <Row data={tableHead} style={styles.head} textStyle={styles.textH} />
               <Rows data={tableData} textStyle={styles.text} />
             </Table>
 
@@ -134,9 +134,10 @@ const layout = useWindowDimensions();
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
-  head: { height: 40, backgroundColor: "#f1f8ff" },
-  text: { margin: 5, marginTop: 10, marginBottom: 10 },
-  table: { margin: 10, marginTop: 15, width: "75%" },
+  head: { height: 50, backgroundColor: "#bde0fe",textAlign: "center"},
+  text: { margin: 5, marginTop: 15, marginBottom: 15, fontSize: 16 ,textAlign: "center"},
+  textH:{ margin: 5, marginTop: 10, marginBottom: 10,fontWeight: 'bold',fontSize: 20,textAlign: "center"},
+  table: { margin: 10, marginTop: 15, width: "95%"},
   section: { marginTop: 10 },
   button: {
     width: "15%",
